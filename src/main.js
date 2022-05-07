@@ -2,13 +2,13 @@ let config = {
     type: Phaser.CANVAS,
     width: 640,
     height: 480,
-    scene: [Menu, Play]
+    scene: [Menu, Room1]
 }
 let game = new Phaser.Game(config)
 
-// reserve keyboard vars
-let keyF, keyR, keyLEFT, keyRIGHT;
+// reserve keyboard vars 
+// (may have interact keys eventually, unless walking into things interacts with them)
+let keyUP, keyDOWN, keyLEFT, keyRIGHT;
 
-//set UI sizes
-let borderUISize = game.config.height / 15;
-let borderPadding = borderUISize / 3;
+// reserve variables that will pass from scene to scene and change
+// such as detection range and movespeed
