@@ -1,6 +1,6 @@
-class Play extends Phaser.Scene{
+class Room01 extends Phaser.Scene{
     constructor(){
-        super("room1Scene");
+        super("roomScene01"); // Follow naming convention for future rooms
     }
 
     preload() {
@@ -11,6 +11,10 @@ class Play extends Phaser.Scene{
     }
 
     create(){
+        // Set background color (this is for testing)
+        console.log('room 1 started');
+        this.cameras.main.setBackgroundColor('#6a717d');
+
         // place map sprite
      
         // place wall sprites
@@ -21,14 +25,35 @@ class Play extends Phaser.Scene{
 
         // add physics colliders between player, enemies, and walls
 
-        // define keys
-        
+        // Set up cursor-key input for directional movement
+        cursors = this.input.keyboard.createCursorKeys();
+
+        // Define keys that aren't for movement
+        keySPACE = this.input.keyboard.addKey('SPACE');
+
         // animation configs
 
     }
 
     update() {
-        // check keyboard input for movement
+        // Check keyboard input for directional movement
+        if (cursors.left.isDown) {
+            console.log('Left pushed');
+
+        } else if (cursors.right.isDown) {
+            console.log('Right pushed');
+
+        } else if (cursors.up.isDown) {
+            console.log('Up pushed');
+
+        } else if (cursors.down.isDown) {
+            console.log('Down pushed');
+        }
+
+        // Check keyboard for space key input (This can be used for interacting with objects)
+        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+            console.log('space');
+        }
 
         // check if player detection range collides with enemy and alert enemy
 
