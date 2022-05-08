@@ -3,8 +3,9 @@
 // Concept: A top down puzzle-solving game where a mysterious guide offers dubious advice
 
 // Global Variables
-let cursors
+let cursors;
 let keyUP, keyDOWN, keyLEFT, keyRIGHT, keySPACE; // Input keys
+const tileSize = 50;
 
 // Set up config file
 let config = {

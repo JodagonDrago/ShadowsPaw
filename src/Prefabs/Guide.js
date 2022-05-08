@@ -1,5 +1,5 @@
 // Rocket prefab
-class Guide extends Phaser.GameObjects.Sprite {
+class Guide extends Phaser.GameObjects.Sprite { //left a gameobject cause it doesnt move or interact with player ever
     constructor(scene, x, y, texture, frame) {
       super(scene, x, y, texture, frame);
   

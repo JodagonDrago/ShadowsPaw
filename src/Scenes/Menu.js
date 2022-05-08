@@ -5,6 +5,17 @@ class Menu extends Phaser.Scene{
 
     preload() {
         // load audio
+
+        // load sprites that will appear in many rooms
+        this.load.image('map', './assets/Room.png');
+        this.load.image('player', './assets/Player.png');
+        this.load.image('threat', './assets/Threat.png');
+        this.load.image('enemy', './assets/Enemy and Guide.png');
+        this.load.image('enemy_calm', './assets/Enemy Calm.png');
+        this.load.image('wall', './assets/Wall.png');
+        this.load.image('wall_half', './assets/Wall Seethrough.png');
+
+        // load spritesheet
         
     }
 
