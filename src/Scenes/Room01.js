@@ -129,16 +129,20 @@ class Room01 extends Phaser.Scene{
         // add threat box for range where enemies become alerted. (in later rooms, check to see if player has torch and add torch instead of threat if they do)
         this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'threat').setOrigin(0.5);
 
+        // add torch in case it is picked up, but hide it off screen. In future scenes, check if hasTorch is true for which threat to make
+        this.newThreat = new Threat(this, -500, -500, 'torch_light').setOrigin(0.5);
+
         // add physics colliders between player, enemies, and walls
         this.physics.add.collider(this.player, this.walls);
         this.physics.add.collider(this.enemies, this.walls);
 
         // add physics overlap to detect player and threat overlapping with enemies or interactables or guide
-        this.physics.add.overlap(this.player, this.enemys);
-        this.physics.add.overlap(this.threat, this.enemys);
-        this.physics.add.overlap(this.player, this.torchTile);
+        this.physics.add.overlap(this.player, this.enemies);
+        this.physics.add.overlap(this.threat, this.enemies, this.alerting);
+        this.physics.add.overlap(this.newThreat, this.enemies, this.alerting);
+        this.physics.add.overlap(this.player, this.torchTile, this.interact);
         this.physics.add.overlap(this.threat, this.guide);
-        // ^ these are not quite done. need to look more into how overlap works so that things happen when an overlap occurs
+
 
         // Set up cursor-key input for directional movement
         cursors = this.input.keyboard.createCursorKeys();
@@ -159,10 +163,13 @@ class Room01 extends Phaser.Scene{
 
         //update prefabs
         this.player.update();
-        this.enemy1.update();
-        this.enemy2.update();
-        this.threat.update(this.player); //passing player into threat so it can follow the player
-
+        this.enemy1.update(this.player);
+        this.enemy2.update(this.player);
+        if (hasTorch == false){
+            this.threat.update(this.player); //passing player into threat so it can follow the player
+        } else {
+            this.newThreat.update(this.player); //they have picked up the torch
+        }
 
         // check if player detection range collides with enemy and alert enemy
 
@@ -176,6 +183,16 @@ class Room01 extends Phaser.Scene{
 
         // check if player collides with exit to next room
         // go to that scene if so
+    }
+
+    alerting(threat, enemies){
+        enemies.alert = true;
+        enemies.setTexture('enemy');
+    }
+
+    interact(player, torchTile){
+        torchTile.destroy();
+        hasTorch = true;
     }
 
     /*

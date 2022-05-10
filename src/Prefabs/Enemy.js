@@ -6,16 +6,22 @@ class Enemy extends Phaser.GameObjects.Sprite{ //made a physics object instead o
         // add object to existing scene
         scene.physics.world.enable(this); //this gives the prefab physics
         this.body.allowGravity = false; //no gravity cause it's top down
-        this.body.immovable = true;
         scene.add.existing(this);
+
+        this.alert = false;
+
+        // Reserve scene as local variable
+        this.scene = scene;
 
     }
 
-    update(){
+    update(player){
         // check if alerted to player
-        // this will likely need a global variable in the constructor
+        // if alerted, move toward player
+        if (this.alert == true){
+            this.scene.physics.moveToObject(this, player, enemySpeed);
 
-        //if alerted, move toward player
+        }
     }
 
 }
