@@ -108,17 +108,17 @@ class Room01 extends Phaser.Scene{
         this.torchTile.body.allowGravity = false;
 
         // add player at map enterance
-        //this.player = this.physics.add.sprite(100, 750, 'player').setOrigin(0);
         this.player = new Player(this, 100, 750, 'player').setOrigin(0);
-        //this.add.existing(this.player);
         this.physics.add.existing(this.player);
 
         // add enemys
         // make the enemys group
         this.enemies = this.add.group();
         this.enemy1 = new Enemy(this, 200, 550, 'enemy_calm').setOrigin(0);
+        this.physics.add.existing(this.enemy1);
         this.enemies.add(this.enemy1);
         this.enemy2 = new Enemy(this, 650, 50, 'enemy_calm').setOrigin(0);
+        this.physics.add.existing(this.enemy2);
         this.enemies.add(this.enemy2);
 
         // add guide
