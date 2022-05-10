@@ -22,6 +22,7 @@ class Room01 extends Phaser.Scene{
         //
         // make the wall group
         this.walls = this.add.group();
+        
         // ring the map with walls
         for(let i = 0; i < game.config.width; i += tileSize) { //Bottom wall
             let wallTile = this.physics.add.sprite(i, game.config.height - tileSize, 'wall').setOrigin(0);
@@ -109,14 +110,16 @@ class Room01 extends Phaser.Scene{
         // add player at map enterance
         //this.player = this.physics.add.sprite(100, 750, 'player').setOrigin(0);
         this.player = new Player(this, 100, 750, 'player').setOrigin(0);
+        //this.add.existing(this.player);
+        this.physics.add.existing(this.player);
 
         // add enemys
         // make the enemys group
-        this.enemys = this.add.group();
+        this.enemies = this.add.group();
         this.enemy1 = new Enemy(this, 200, 550, 'enemy_calm').setOrigin(0);
-        this.enemys.add(this.enemy1);
+        this.enemies.add(this.enemy1);
         this.enemy2 = new Enemy(this, 650, 50, 'enemy_calm').setOrigin(0);
-        this.enemys.add(this.enemy2);
+        this.enemies.add(this.enemy2);
 
         // add guide
         this.guide = this.physics.add.sprite(300, 250, 'enemy').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
@@ -128,7 +131,7 @@ class Room01 extends Phaser.Scene{
 
         // add physics colliders between player, enemies, and walls
         this.physics.add.collider(this.player, this.walls);
-        this.physics.add.collider(this.enemys, this.walls);
+        this.physics.add.collider(this.enemies, this.walls);
 
         // add physics overlap to detect player and threat overlapping with enemies or interactables or guide
         this.physics.add.overlap(this.player, this.enemys);
@@ -175,4 +178,9 @@ class Room01 extends Phaser.Scene{
         // go to that scene if so
     }
 
+    /*
+    test(){
+        console.log('collision');
+    }
+    */
 }

@@ -6,6 +6,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{ //made a physics object instea
         // add object to existing scene
         scene.physics.add.existing(this); //this gives the prefab physics
         this.body.allowGravity = false; //no gravity cause it's top down
+        this.body.immovable = true;
         scene.add.existing(this);
 
     }
