@@ -10,9 +10,19 @@ class Room01 extends Phaser.Scene{
     }
 
     create(){
-        // Set background color (this is for testing)
         console.log('room 1 started');
-        // this.cameras.main.setBackgroundColor('#6a717d');
+
+        // Instantiate text config for dialogue
+        this.textConfig = {
+            fontFamily: 'Courier',
+            fontSize: '20px',
+            align: 'left',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 0
+        }
 
         // place map sprite
         this.map = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'map').setOrigin(0, 0);
@@ -152,13 +162,16 @@ class Room01 extends Phaser.Scene{
 
         // animation configs (if we end up using any)
 
+        // Add guide dialogue
+        this.guideText = this.generateText("Hey... you look scared...");
+
     }
 
     update() {
 
         // Check keyboard for space key input (This can be used for interacting with objects, or progressing guide text)
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            console.log('space');
+            this.guideText.destroy();
         }
 
         //update prefabs
@@ -200,4 +213,10 @@ class Room01 extends Phaser.Scene{
         console.log('collision');
     }
     */
+
+    // A function for generating text above the guide
+    generateText(text) {
+        return this.add.text(this.guide.x - 20, this.guide.y - 50, text, this.textConfig);
+    }
 }
+
