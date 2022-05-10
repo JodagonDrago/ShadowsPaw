@@ -5,7 +5,11 @@
 // Global Variables
 let cursors;
 let keyUP, keyDOWN, keyLEFT, keyRIGHT, keySPACE; // Input keys
+let threat;
 const tileSize = 50;
+var enemySpeed = 80;
+var moveTime = 500;
+var hasTorch = false;
 
 // Set up config file
 let config = {

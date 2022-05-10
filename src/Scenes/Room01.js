@@ -22,6 +22,7 @@ class Room01 extends Phaser.Scene{
         //
         // make the wall group
         this.walls = this.add.group();
+        
         // ring the map with walls
         for(let i = 0; i < game.config.width; i += tileSize) { //Bottom wall
             let wallTile = this.physics.add.sprite(i, game.config.height - tileSize, 'wall').setOrigin(0);
@@ -107,16 +108,18 @@ class Room01 extends Phaser.Scene{
         this.torchTile.body.allowGravity = false;
 
         // add player at map enterance
-        //this.player = this.physics.add.sprite(100, 750, 'player').setOrigin(0);
         this.player = new Player(this, 100, 750, 'player').setOrigin(0);
+        this.physics.add.existing(this.player);
 
         // add enemys
         // make the enemys group
-        this.enemys = this.add.group();
+        this.enemies = this.add.group();
         this.enemy1 = new Enemy(this, 200, 550, 'enemy_calm').setOrigin(0);
-        this.enemys.add(this.enemy1);
+        this.physics.add.existing(this.enemy1);
+        this.enemies.add(this.enemy1);
         this.enemy2 = new Enemy(this, 650, 50, 'enemy_calm').setOrigin(0);
-        this.enemys.add(this.enemy2);
+        this.physics.add.existing(this.enemy2);
+        this.enemies.add(this.enemy2);
 
         // add guide
         this.guide = this.physics.add.sprite(300, 250, 'enemy').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
@@ -126,16 +129,20 @@ class Room01 extends Phaser.Scene{
         // add threat box for range where enemies become alerted. (in later rooms, check to see if player has torch and add torch instead of threat if they do)
         this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'threat').setOrigin(0.5);
 
+        // add torch in case it is picked up, but hide it off screen. In future scenes, check if hasTorch is true for which threat to make
+        this.newThreat = new Threat(this, -500, -500, 'torch_light').setOrigin(0.5);
+
         // add physics colliders between player, enemies, and walls
         this.physics.add.collider(this.player, this.walls);
-        this.physics.add.collider(this.enemys, this.walls);
+        this.physics.add.collider(this.enemies, this.walls);
 
         // add physics overlap to detect player and threat overlapping with enemies or interactables or guide
-        this.physics.add.overlap(this.player, this.enemys);
-        this.physics.add.overlap(this.threat, this.enemys);
-        this.physics.add.overlap(this.player, this.torchTile);
+        this.physics.add.overlap(this.player, this.enemies);
+        this.physics.add.overlap(this.threat, this.enemies, this.alerting);
+        this.physics.add.overlap(this.newThreat, this.enemies, this.alerting);
+        this.physics.add.overlap(this.player, this.torchTile, this.interact);
         this.physics.add.overlap(this.threat, this.guide);
-        // ^ these are not quite done. need to look more into how overlap works so that things happen when an overlap occurs
+
 
         // Set up cursor-key input for directional movement
         cursors = this.input.keyboard.createCursorKeys();
@@ -156,10 +163,13 @@ class Room01 extends Phaser.Scene{
 
         //update prefabs
         this.player.update();
-        this.enemy1.update();
-        this.enemy2.update();
-        this.threat.update(this.player); //passing player into threat so it can follow the player
-
+        this.enemy1.update(this.player);
+        this.enemy2.update(this.player);
+        if (hasTorch == false){
+            this.threat.update(this.player); //passing player into threat so it can follow the player
+        } else {
+            this.newThreat.update(this.player); //they have picked up the torch
+        }
 
         // check if player detection range collides with enemy and alert enemy
 
@@ -175,4 +185,19 @@ class Room01 extends Phaser.Scene{
         // go to that scene if so
     }
 
+    alerting(threat, enemies){
+        enemies.alert = true;
+        enemies.setTexture('enemy');
+    }
+
+    interact(player, torchTile){
+        torchTile.destroy();
+        hasTorch = true;
+    }
+
+    /*
+    test(){
+        console.log('collision');
+    }
+    */
 }
