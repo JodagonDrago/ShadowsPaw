@@ -162,16 +162,21 @@ class Room01 extends Phaser.Scene{
 
         // animation configs (if we end up using any)
 
-        // Add guide dialogue
-        this.guideText = this.generateText("Hey... you look scared...");
+        // Add guide dialogue into an array by sentence
+        this.currText = 0; // Current sentence to display
+        this.totalText = 3; // Total sentences spoken by guide in this scene
+        this.textArray = ["Hey... you look scared...", "Why not grab that torch?", "It's awfully dark in here..."]
+        // Display current sentence and advance to next sentence
+        this.guideText = this.generateText(this.textArray[this.currText++]);
 
     }
 
     update() {
 
         // Check keyboard for space key input (This can be used for interacting with objects, or progressing guide text)
-        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            this.guideText.destroy();
+        if (Phaser.Input.Keyboard.JustDown(keySPACE) && this.currText <= this.totalText) {
+            // Advance to next sentence
+            this.guideText.text = this.textArray[this.currText++];
         }
 
         //update prefabs
