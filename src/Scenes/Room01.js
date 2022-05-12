@@ -10,9 +10,7 @@ class Room01 extends Phaser.Scene{
     }
 
     create(){
-        // Set background color (this is for testing)
         console.log('room 1 started');
-        // this.cameras.main.setBackgroundColor('#6a717d');
 
         // place map sprite
         this.map = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'map').setOrigin(0, 0);
@@ -61,6 +59,11 @@ class Room01 extends Phaser.Scene{
         aTile.body.immovable = true;
         aTile.body.allowGravity = false;
         this.walls.add(aTile);
+        //Next add interior walls
+        let bTile = this.physics.add.sprite(50, 600, 'wall').setOrigin(0); //the 1 block above that one
+        bTile.body.immovable = true;
+        bTile.body.allowGravity = false;
+        this.walls.add(bTile);
         for(let i = 400; i < 850; i += tileSize) { //wall to player right
             let wallTile = this.physics.add.sprite(150, i, 'wall').setOrigin(0);
             wallTile.body.immovable = true;
@@ -141,7 +144,7 @@ class Room01 extends Phaser.Scene{
         this.physics.add.overlap(this.threat, this.enemies, this.alerting);
         this.physics.add.overlap(this.newThreat, this.enemies, this.alerting);
         this.physics.add.overlap(this.player, this.torchTile, this.interact);
-        this.physics.add.overlap(this.threat, this.guide);
+        this.physics.add.overlap(this.threat, this.guide, this.startTalking);
 
 
         // Set up cursor-key input for directional movement
@@ -152,14 +155,24 @@ class Room01 extends Phaser.Scene{
 
         // animation configs (if we end up using any)
 
+        // Add guide dialogue into an array by sentence
+        currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
+        totalText = 7; // Total sentences spoken by guide in this scene
+        textArray = [" ", "Hello... you look scared...", "Do you need help getting out of here?", "I can help. Trust me.", "There's an old torch up ahead.", "If you pick it up, the light it shines...", "will make the monsters more hesitant to approach you.", " "]
+        talking = false;
+        // Display current sentence and advance to next sentence
+        guideText = this.add.text(this.guide.x + 25, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0.5);
+
     }
 
     update() {
 
         // Check keyboard for space key input (This can be used for interacting with objects, or progressing guide text)
-        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            console.log('space');
+        if (Phaser.Input.Keyboard.JustDown(keySPACE) && currText <= totalText && talking == true) {
+            // Advance to next sentence
+            guideText.text = textArray[currText++];
         }
+        //console.log(talking);
 
         //update prefabs
         this.player.update();
@@ -193,11 +206,14 @@ class Room01 extends Phaser.Scene{
     interact(player, torchTile){
         torchTile.destroy();
         hasTorch = true;
+        //enemySpeed = 50;
     }
 
-    /*
-    test(){
-        console.log('collision');
+    startTalking() {
+        if (talking == false){ //so it doesnt repeat
+            guideText.text = textArray[currText++]; //say the first line after " "
+            talking = true;
+        }
     }
-    */
 }
+
