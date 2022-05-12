@@ -8,8 +8,15 @@ let keyUP, keyDOWN, keyLEFT, keyRIGHT, keySPACE; // Input keys
 let threat;
 const tileSize = 50;
 var enemySpeed = 80;
-var moveTime = 500;
+var playerSpeed = 500;
 var hasTorch = false;
+
+//Global dialogue variables
+var currText; // Current sentence to display
+var totalText; // Total sentences spoken by guide in this scene
+var talking;
+var textArray;
+let guideText;
 
 // Set up config file
 let config = {
@@ -27,6 +34,18 @@ let config = {
         }
     },
     scene: [Menu, Room01]
+}
+
+// Instantiate text config for dialogue
+let textConfig = {
+    fontFamily: 'Courier',
+    fontSize: '20px',
+    align: 'left',
+    padding: {
+        top: 5,
+        bottom: 5,
+    },
+    fixedWidth: 0
 }
 
 let game = new Phaser.Game(config)

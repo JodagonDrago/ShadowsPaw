@@ -17,14 +17,13 @@ class Player extends Phaser.GameObjects.Sprite { //made a physics object instead
     }
 
     update(){
-        var i = 0;
 
         // movement using arcade physics and global variables in main.js
         // Check keyboard input for directional movement
         if (cursors.left.isDown && !this.isMoving) {
             //console.log('Left pushed');
             this.isMoving = true;
-            this.scene.physics.moveTo(this, this.x - 50, this.y, 60, moveTime);
+            this.scene.physics.moveTo(this, this.x - 50, this.y, 60, playerSpeed);
 
             // Delay movement until player has moved one unit (50px)
             this.delayMove();
@@ -32,7 +31,7 @@ class Player extends Phaser.GameObjects.Sprite { //made a physics object instead
         } else if (cursors.right.isDown && !this.isMoving) {
             //console.log('Right pushed');
             this.isMoving = true;
-            this.scene.physics.moveTo(this, this.x + 50, this.y, 60, moveTime);
+            this.scene.physics.moveTo(this, this.x + 50, this.y, 60, playerSpeed);
 
             // Delay movement until player has moved one unit (50px)
             this.delayMove();
@@ -40,7 +39,7 @@ class Player extends Phaser.GameObjects.Sprite { //made a physics object instead
         } else if (cursors.up.isDown && !this.isMoving) {
             //console.log('Up pushed');
             this.isMoving = true;
-            this.scene.physics.moveTo(this, this.x, this.y - 50, 60, moveTime);
+            this.scene.physics.moveTo(this, this.x, this.y - 50, 60, playerSpeed);
 
             // Delay movement until player has moved one unit (50px)
             this.delayMove();
@@ -48,7 +47,7 @@ class Player extends Phaser.GameObjects.Sprite { //made a physics object instead
         } else if (cursors.down.isDown && !this.isMoving) {
             //console.log('Down pushed');
             this.isMoving = true;
-            this.scene.physics.moveTo(this, this.x, this.y + 50, 60, moveTime);
+            this.scene.physics.moveTo(this, this.x, this.y + 50, 60, playerSpeed);
 
             // Delay movement until player has moved one unit (50px)
             this.delayMove();
@@ -60,7 +59,7 @@ class Player extends Phaser.GameObjects.Sprite { //made a physics object instead
     // A function for delaying movement so that player does not move several times a second
     delayMove() {
 
-        this.scene.time.delayedCall(moveTime + 1, () => {
+        this.scene.time.delayedCall(playerSpeed + 1, () => {
             this.body.setVelocityY(0);
             this.body.setVelocityX(0);
             this.x = Phaser.Math.Snap.To(this.x, 50);
