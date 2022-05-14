@@ -167,6 +167,9 @@ class Room01 extends Phaser.Scene{
         // Display current sentence and advance to next sentence
         guideText = this.add.text(this.guide.x + 25, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0.5);
 
+        // Display tutorial text
+        tutorialText = this.add.text(game.config.width - 250, game.config.height - 200, "Use arrow keys to move\n\nPress space to advance text", textConfig).setOrigin(0.5);
+
     }
 
     update() {
