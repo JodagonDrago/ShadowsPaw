@@ -115,7 +115,7 @@ class Room01 extends Phaser.Scene{
         this.physics.add.existing(this.player);
 
         // Add exit zone
-        this.exitZone = this.physics.add.sprite(950, 350, 'wall').setOrigin(0);
+        this.exitZone = this.physics.add.sprite(925, 350, 'wall').setOrigin(0);
         this.physics.add.overlap(this.player, this.exitZone, ()=> { this.scene.start('menuScene'); });
 
         // add enemys
