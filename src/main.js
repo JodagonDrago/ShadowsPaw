@@ -20,6 +20,9 @@ var talking2; //second dialogue after choice
 var textArray;
 let guideText;
 let tutorialText
+//audio variables need to be global to execute in functions
+let voice
+let pickupSound
 
 // Set up config file
 let config = {

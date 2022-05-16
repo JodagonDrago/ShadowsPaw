@@ -109,6 +109,7 @@ class Room01 extends Phaser.Scene{
         this.torchTile = this.physics.add.sprite(450, 50, 'torch').setOrigin(0);
         this.torchTile.body.immovable = true;
         this.torchTile.body.allowGravity = false;
+        pickupSound = this.sound.add('pickup', {volume: 0.5});
 
         // add player at map enterance
         this.player = new Player(this, 100, 750, 'player').setOrigin(0);
@@ -164,6 +165,8 @@ class Room01 extends Phaser.Scene{
         talking2 = false;
         // Display current sentence and advance to next sentence
         guideText = this.add.text(this.guide.x + 25, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0.5);
+        //guide audio
+        voice = this.sound.add('voice', {volume: 0.5});
 
         // Display tutorial text
         tutorialText = this.add.text(game.config.width - 250, game.config.height - 200, "Use arrow keys to move\n\nPress space to advance dialogue", textConfig).setOrigin(0.5);
@@ -180,6 +183,9 @@ class Room01 extends Phaser.Scene{
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && currText <= totalText && talking == true) {
             // Advance to next sentence
             guideText.text = textArray[currText++];
+            if (currText <= totalText){ //dont make sound if dialogue is over
+            voice.play();
+            }
         }
         //console.log(talking);
 
@@ -204,12 +210,14 @@ class Room01 extends Phaser.Scene{
     interact(player, torchTile){
         torchTile.destroy();
         hasTorch = true;
+        pickupSound.play();
     }
 
     startTalking() {
         if (talking == false){ //so it doesnt repeat
             guideText.text = textArray[currText++]; //say the first line after " "
             talking = true;
+            voice.play();
         }
     }
     startTalking2() {
@@ -219,6 +227,7 @@ class Room01 extends Phaser.Scene{
             textArray = ["Oops, looks like they see you from further now too.", "Heh heh heh, I'm sure you'll be fine."," "]
             guideText.text = textArray[currText++]; //say the first line after " "
             talking2 = true;
+            voice.play();
         }
     }
 }
