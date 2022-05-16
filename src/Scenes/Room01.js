@@ -145,6 +145,7 @@ class Room01 extends Phaser.Scene{
         this.physics.add.overlap(this.newThreat, this.enemies, this.alerting); // check if new player detection range collides with enemy and alert enemy
         this.physics.add.overlap(this.player, this.torchTile, this.interact); // check if player touches torch and equip it
         this.physics.add.overlap(this.threat, this.guide, this.startTalking); // make guide start talking if player is close enough
+        this.physics.add.overlap(this.newThreat, this.guide, this.startTalking2); // make guide start talking if player is close enough
 
 
         // Set up cursor-key input for directional movement
@@ -160,11 +161,12 @@ class Room01 extends Phaser.Scene{
         totalText = 7; // Total sentences spoken by guide in this scene
         textArray = [" ", "Hello... you look scared...", "Do you need help getting out of here?", "I can help. Trust me.", "There's an old torch up ahead.", "If you pick it up, the light it shines...", "will make the monsters more hesitant to approach you.", " "]
         talking = false;
+        talking2 = false;
         // Display current sentence and advance to next sentence
         guideText = this.add.text(this.guide.x + 25, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0.5);
 
         // Display tutorial text
-        tutorialText = this.add.text(game.config.width - 250, game.config.height - 200, "Use arrow keys to move\n\nPress space to advance text", textConfig).setOrigin(0.5);
+        tutorialText = this.add.text(game.config.width - 250, game.config.height - 200, "Use arrow keys to move\n\nPress space to advance dialogue", textConfig).setOrigin(0.5);
 
         // Add exit zone
         this.exitZone = this.physics.add.sprite(925, 350, 'wall').setOrigin(0);
@@ -208,6 +210,15 @@ class Room01 extends Phaser.Scene{
         if (talking == false){ //so it doesnt repeat
             guideText.text = textArray[currText++]; //say the first line after " "
             talking = true;
+        }
+    }
+    startTalking2() {
+        if (talking2 == false){ //so it doesnt repeat
+            currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
+            totalText = 2;
+            textArray = ["Oops, looks like they see you from further now too.", "Heh heh heh, I'm sure you'll be fine."," "]
+            guideText.text = textArray[currText++]; //say the first line after " "
+            talking2 = true;
         }
     }
 }

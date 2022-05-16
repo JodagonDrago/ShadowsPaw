@@ -16,6 +16,7 @@ var hasTorch = false;
 var currText; // Current sentence to display
 var totalText; // Total sentences spoken by guide in this scene
 var talking;
+var talking2; //second dialogue after choice
 var textArray;
 let guideText;
 let tutorialText
