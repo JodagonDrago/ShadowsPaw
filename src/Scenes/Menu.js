@@ -30,10 +30,10 @@ class Menu extends Phaser.Scene{
         keySPACE = this.input.keyboard.addKey('SPACE');
 
         //get some music going - Somehow this broke everything
-        /*this.game.sound.stopAll();
+        this.game.sound.stopAll();
         music = this.sound.add('music', {volume: 0.5});
         music.setLoop(true);
-        music.play();*/
+        music.play();
     
     }
 

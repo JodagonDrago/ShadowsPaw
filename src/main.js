@@ -6,6 +6,7 @@
 let cursors;
 let keyUP, keyDOWN, keyLEFT, keyRIGHT, keySPACE; // Input keys
 let threat;
+let music;
 const tileSize = 50;
 var enemySpeed = 80;
 var playerSpeed = 500;
