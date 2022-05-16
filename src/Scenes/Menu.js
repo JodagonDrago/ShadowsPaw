@@ -5,6 +5,7 @@ class Menu extends Phaser.Scene{
 
     preload() {
         // load audio
+        this.load.audio('music', './assets/Closing-In_Looping.mp3');
 
         // load sprites that will appear in many rooms
         this.load.image('map', './assets/Room.png');
@@ -27,6 +28,12 @@ class Menu extends Phaser.Scene{
 
         // Define keys that aren't for movement
         keySPACE = this.input.keyboard.addKey('SPACE');
+
+        //get some music going - Somehow this broke everything
+        /*this.game.sound.stopAll();
+        music = this.sound.add('music', {volume: 0.5});
+        music.setLoop(true);
+        music.play();*/
     
     }
 
