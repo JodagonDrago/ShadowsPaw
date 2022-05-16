@@ -114,10 +114,6 @@ class Room01 extends Phaser.Scene{
         this.player = new Player(this, 100, 750, 'player').setOrigin(0);
         this.physics.add.existing(this.player);
 
-        // Add exit zone
-        this.exitZone = this.physics.add.sprite(925, 350, 'wall').setOrigin(0);
-        this.physics.add.overlap(this.player, this.exitZone, ()=> { this.scene.start('menuScene'); });
-
         // add enemys
         // make the enemys group
         this.enemies = this.add.group();
@@ -144,11 +140,11 @@ class Room01 extends Phaser.Scene{
         this.physics.add.collider(this.enemies, this.walls);
 
         // add physics overlap to detect player and threat overlapping with enemies or interactables or guide
-        this.physics.add.overlap(this.player, this.enemies);
-        this.physics.add.overlap(this.threat, this.enemies, this.alerting);
-        this.physics.add.overlap(this.newThreat, this.enemies, this.alerting);
-        this.physics.add.overlap(this.player, this.torchTile, this.interact);
-        this.physics.add.overlap(this.threat, this.guide, this.startTalking);
+        this.physics.add.overlap(this.player, this.enemies, ()=> { this.scene.start('gameOverScene'); }); // check if player is hit by enemy and game over if they do
+        this.physics.add.overlap(this.threat, this.enemies, this.alerting); // check if player detection range collides with enemy and alert enemy
+        this.physics.add.overlap(this.newThreat, this.enemies, this.alerting); // check if new player detection range collides with enemy and alert enemy
+        this.physics.add.overlap(this.player, this.torchTile, this.interact); // check if player touches torch and equip it
+        this.physics.add.overlap(this.threat, this.guide, this.startTalking); // make guide start talking if player is close enough
 
 
         // Set up cursor-key input for directional movement
@@ -169,6 +165,10 @@ class Room01 extends Phaser.Scene{
 
         // Display tutorial text
         tutorialText = this.add.text(game.config.width - 250, game.config.height - 200, "Use arrow keys to move\n\nPress space to advance text", textConfig).setOrigin(0.5);
+
+        // Add exit zone
+        this.exitZone = this.physics.add.sprite(925, 350, 'wall').setOrigin(0);
+        this.physics.add.overlap(this.player, this.exitZone, ()=> { this.scene.start('menuScene'); }); // check if player collides with exit to next room
 
     }
 
@@ -191,18 +191,7 @@ class Room01 extends Phaser.Scene{
             this.newThreat.update(this.player); //they have picked up the torch
         }
 
-        // check if player detection range collides with enemy and alert enemy
-
-        // check if player is hit by enemy and game over if they do
-
-        // make guide start talking if player is close enough
-        // and make guide text progress with space bar
-
-        // check if player touches torch and equip it
-        // this should increase the detection range and lower enemy movespeed
-
         // check if player collides with exit to next room
-        // go to that scene if so
     }
 
     alerting(threat, enemies){
@@ -213,7 +202,6 @@ class Room01 extends Phaser.Scene{
     interact(player, torchTile){
         torchTile.destroy();
         hasTorch = true;
-        //enemySpeed = 50;
     }
 
     startTalking() {

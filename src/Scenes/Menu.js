@@ -29,7 +29,7 @@ class Menu extends Phaser.Scene{
         // Define keys that aren't for movement
         keySPACE = this.input.keyboard.addKey('SPACE');
 
-        //get some music going - Somehow this broke everything
+        //get some music going
         this.game.sound.stopAll();
         music = this.sound.add('music', {volume: 0.5});
         music.setLoop(true);
