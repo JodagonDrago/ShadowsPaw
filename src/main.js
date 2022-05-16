@@ -17,6 +17,7 @@ var totalText; // Total sentences spoken by guide in this scene
 var talking;
 var textArray;
 let guideText;
+let tutorialText
 
 // Set up config file
 let config = {
