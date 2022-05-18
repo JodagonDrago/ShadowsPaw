@@ -49,12 +49,12 @@ class Menu extends Phaser.Scene{
                 this.title.text = "PRESS SPACE TO ADVANCE DIALOGUE"
             }, null, this);
 
-            this.time.delayedCall(4000, () => {
+            this.time.delayedCall(4500, () => {
                 this.title.text = "TRUST YOUR INSTINCTS"
 
             }, null, this);
 
-            this.time.delayedCall(6000, () => {
+            this.time.delayedCall(7000, () => {
                 this.scene.start('roomScene01');
             }, null, this);
         }
