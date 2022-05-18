@@ -25,8 +25,8 @@ class Menu extends Phaser.Scene{
 
     create(){
         // add menu image
-        this.add.text(game.config.width/2, game.config.height/2, 'TRUSTING SHADOWS').setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2 + 100, 'Press SPACE').setOrigin(0.5);
+        this.title = this.add.text(game.config.width/2, game.config.height/2, 'TRUSTING SHADOWS').setOrigin(0.5);
+        this.prompt = this.add.text(game.config.width/2, game.config.height/2 + 100, 'Press SPACE').setOrigin(0.5);
 
         // Define keys that aren't for movement
         keySPACE = this.input.keyboard.addKey('SPACE');
@@ -42,7 +42,21 @@ class Menu extends Phaser.Scene{
     update() {
         // Start game when Space Bar is pushed
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            this.scene.start('roomScene01');
+            this.prompt.destroy();
+            this.title.text = "USE ARROW KEYS TO MOVE"
+
+            this.time.delayedCall(2000, () => {
+                this.title.text = "PRESS SPACE TO ADVANCE DIALOGUE"
+            }, null, this);
+
+            this.time.delayedCall(4000, () => {
+                this.title.text = "TRUST YOUR INSTINCTS"
+
+            }, null, this);
+
+            this.time.delayedCall(6000, () => {
+                this.scene.start('roomScene01');
+            }, null, this);
         }
         
       }
