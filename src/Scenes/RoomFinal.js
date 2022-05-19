@@ -1,6 +1,7 @@
 class RoomFinal extends Phaser.Scene{
     constructor(){
         super("roomSceneFinal"); // Follow naming convention for future rooms
+        this.exitsPos = [200, 250, 400, 450, 600, 650]; // Y positions of exits across right wall
     }
 
     create() {
@@ -32,6 +33,19 @@ class RoomFinal extends Phaser.Scene{
                 this.walls.add(wallTile);  
             }
         }
+        // Add right wall with three openings
+        for(let i = 0; i < game.config.height; i += tileSize) { //Right wall
+            if (!this.exitsPos.includes(i)) {
+                let wallTile = this.physics.add.sprite(850 , i, 'wall').setOrigin(0);
+                wallTile.body.immovable = true;
+                wallTile.body.allowGravity = false;
+                this.walls.add(wallTile);
+            }  
+        }
+
+        // Add player
+        this.player = new Player(this, 0, game.config.height / 2, 'player').setOrigin(0);
+        this.physics.add.existing(this.player);
     }
 
     update() {

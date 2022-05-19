@@ -42,9 +42,11 @@ class Menu extends Phaser.Scene{
     update() {
         // Start game when Space Bar is pushed
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+            this.scene.start('roomSceneFinal')// FIXME DO NOT PUSH TO MASTER
             this.prompt.destroy();
             this.title.text = "USE ARROW KEYS TO MOVE"
 
+            /*
             this.time.delayedCall(2000, () => {
                 this.title.text = "PRESS SPACE TO ADVANCE DIALOGUE"
             }, null, this);
@@ -55,8 +57,9 @@ class Menu extends Phaser.Scene{
             }, null, this);
 
             this.time.delayedCall(7000, () => {
-                this.scene.start('roomSceneFinal'); // FIXME DO NOT PUSH TO MASTER
+                this.scene.start('roomScene01'); 
             }, null, this);
+            */
         }
         
       }
