@@ -19,6 +19,9 @@ class GameOver extends Phaser.Scene{
         // Define keys that aren't for movement
         keySPACE = this.input.keyboard.addKey('SPACE');
 
+        //reset game parameters
+        hasTorch = false;
+
         //get some sad music going
         this.game.sound.stopAll();
         music = this.sound.add('music', {volume: 0.5});

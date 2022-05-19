@@ -19,10 +19,16 @@ var talking;
 var talking2; //second dialogue after choice
 var textArray;
 let guideText;
-let tutorialText
+let tutorialText;
+
+//effect controllers
+let eventCheck = false; //checker for events
+let currentScene;
+
 //audio variables need to be global to execute in functions
-let voice
-let pickupSound
+let voice;
+let pickupSound;
+let sfx;
 
 // Set up config file
 let config = {
@@ -39,7 +45,7 @@ let config = {
             }
         }
     },
-    scene: [Menu, Room01, GameOver]
+    scene: [Menu, Room01, Room02, GameOver]
 }
 
 // Instantiate text config for dialogue
