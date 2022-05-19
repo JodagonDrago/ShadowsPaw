@@ -45,7 +45,7 @@ let config = {
             }
         }
     },
-    scene: [Menu, Room01, Room02, GameOver]
+    scene: [Menu, Room01, Room02, RoomFinal, GameOver]
 }
 
 // Instantiate text config for dialogue

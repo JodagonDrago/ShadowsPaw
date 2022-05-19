@@ -55,7 +55,7 @@ class Menu extends Phaser.Scene{
             }, null, this);
 
             this.time.delayedCall(7000, () => {
-                this.scene.start('roomScene01');
+                this.scene.start('roomSceneFinal'); // FIXME DO NOT PUSH TO MASTER
             }, null, this);
         }
         
