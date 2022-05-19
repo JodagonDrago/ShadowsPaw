@@ -5,7 +5,7 @@ class GameOver extends Phaser.Scene{
 
     preload() {
         // load game over audio
-        
+        this.load.audio('dead', './assets/Death.wav');
 
         // load game over image
         
@@ -24,9 +24,8 @@ class GameOver extends Phaser.Scene{
 
         //get some sad music going
         this.game.sound.stopAll();
-        music = this.sound.add('music', {volume: 0.5});
-        music.setLoop(true);
-        music.play();
+        this.scream = this.sound.add('dead', {volume: 0.5});
+        this.scream.play();
     
     }
 

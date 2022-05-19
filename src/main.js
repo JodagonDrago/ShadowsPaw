@@ -8,7 +8,7 @@ let keyUP, keyDOWN, keyLEFT, keyRIGHT, keySPACE; // Input keys
 let threat;
 let music;
 const tileSize = 50;
-var enemySpeed = 80;
+var enemySpeed = 90;
 var playerSpeed = 500;
 var hasTorch = false;
 

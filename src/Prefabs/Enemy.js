@@ -10,6 +10,7 @@ class Enemy extends Phaser.GameObjects.Sprite{ //made a physics object instead o
         scene.add.existing(this);
 
         this.alert = false;
+        this.growled = false;
 
         // Boolean to prevent movement if player is already moving
         this.pause = false;
@@ -27,6 +28,11 @@ class Enemy extends Phaser.GameObjects.Sprite{ //made a physics object instead o
         this.playerXDistance = this.x - player.x;
         this.playerYDistance = this.y - player.y;
         if (this.alert == true){
+            if (this.growled == false){
+                this.scene.growl = this.scene.sound.add('alert', {volume: 0.5});
+                this.scene.growl.play();
+                this.growled = true;
+            }
             if (this.pause == false){
                 this.scene.physics.moveToObject(this, player, enemySpeed);
             }
