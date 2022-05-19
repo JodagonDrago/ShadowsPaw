@@ -8,6 +8,7 @@ class Menu extends Phaser.Scene{
         this.load.audio('music', './assets/Closing-In_Looping.mp3');
         this.load.audio('voice', './assets/Guide Voice.wav');
         this.load.audio('pickup', './assets/Pickup.wav');
+        this.load.audio('alert', './assets/Alert.wav');
 
         // load sprites that will appear in many rooms
         this.load.image('map', './assets/Room.png');
