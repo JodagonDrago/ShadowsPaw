@@ -204,7 +204,7 @@ class Room02 extends Phaser.Scene{
 
         // add threat box for range where enemies become alerted. Check if it is a torch or not
         if (hasTorch == false){
-            this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'threat').setOrigin(0.5);
+            this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'threat').setOrigin(0.5).setScale(0.9);
         } else {
             this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'torch_light').setOrigin(0.5);
             this.threat.body.setCircle(200);
@@ -232,8 +232,8 @@ class Room02 extends Phaser.Scene{
 
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
-        totalText = 7; // Total sentences spoken by guide in this scene
-        textArray = [" ", "Careful ahead...", "The lower bridge has an ambush.", "you wouldn't want that.", "Take the top bridge instead.", "I promise it'll hold.", "Heh heh heh heh...", " "]
+        totalText = 8; // Total sentences spoken by guide in this scene
+        textArray = [" ", "Hello again.", "Be careful ahead...", "The lower bridge has an ambush.", "you wouldn't want that.", "Take the top bridge instead.", "I promise it'll hold.", "Heh heh heh heh...", " "]
         talking = false;
         talking2 = false;
         // Display current sentence and advance to next sentence
@@ -243,7 +243,7 @@ class Room02 extends Phaser.Scene{
 
         // Add exit zone
         this.exitZone = this.physics.add.sprite(925, 450, 'wall').setOrigin(0);
-        this.physics.add.overlap(this.player, this.exitZone, ()=> { this.scene.start('menuScene'); }); // check if player collides with exit to next room
+        this.physics.add.overlap(this.player, this.exitZone, ()=> { this.scene.start('roomScene03'); }); // check if player collides with exit to next room
 
     }
 
@@ -275,12 +275,6 @@ class Room02 extends Phaser.Scene{
     alerting(threat, enemies){
         enemies.alert = true;
         enemies.setTexture('enemy');
-    }
-
-    interact(player, torchTile){
-        torchTile.destroy();
-        hasTorch = true;
-        pickupSound.play();
     }
 
     startTalking() {
