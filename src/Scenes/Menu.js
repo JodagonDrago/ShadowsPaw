@@ -51,12 +51,7 @@ class Menu extends Phaser.Scene{
             }, null, this);
 
             this.time.delayedCall(4500, () => {
-                this.title.text = "TRUST YOUR INSTINCTS"
-
-            }, null, this);
-
-            this.time.delayedCall(7000, () => {
-                this.scene.start('roomScene01');
+                this.scene.start('roomScene03');
             }, null, this);
         }
         
