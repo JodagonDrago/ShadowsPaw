@@ -1,40 +1,67 @@
 class RoomFinal extends Phaser.Scene{
     constructor(){
         super("roomSceneFinal"); // Follow naming convention for future rooms
-        this.exitsPos = [200, 250, 400, 450, 600, 650]; // Y positions of exits across right wall
+        this.exitsPos = [400, 450, 500]; // Y positions of exits across right wall
+    }
+
+    preload() {
+        this.load.image('secretWall', './assets/CrackedWall.png')
     }
 
     create() {
         // Place map sprite
         console.log('Final room started');
-        this.map = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'map').setOrigin(0, 0);
+        this.map1 = this.add.tileSprite(0, 450, 450, 50, 'map').setOrigin(0, 0);
+        this.map2 = this.add.tileSprite(450, 200, 450, 500, 'map').setOrigin(0, 0);
 
         this.walls = this.add.group();
 
-        // Add top and bottom walls
-        for(let i = 0; i < game.config.width; i += tileSize) { //Bottom wall
-            let wallTile = this.physics.add.sprite(i, game.config.height - tileSize, 'wall').setOrigin(0);
+        // Add top and bottom walls of open area
+        for(let i = 400; i < game.config.width; i += tileSize) { //Bottom wall
+            let wallTile;
+            if (i == 500) {
+                wallTile = this.physics.add.sprite(i, 700, 'secretWall').setOrigin(0);
+            } else {
+                wallTile = this.physics.add.sprite(i, 700, 'wall').setOrigin(0);
+            }
             wallTile.body.immovable = true;
             wallTile.body.allowGravity = false;
             this.walls.add(wallTile);
         }
-        for(let i = 0; i < game.config.width; i += tileSize) { //Top wall
-            let wallTile = this.physics.add.sprite(i, 0, 'wall').setOrigin(0);
+        for(let i = 400; i < game.config.width; i += tileSize) { //Top wall
+            let wallTile = this.physics.add.sprite(i, 150, 'wall').setOrigin(0);
             wallTile.body.immovable = true;
             wallTile.body.allowGravity = false;
             this.walls.add(wallTile);
         }
-        // Add left wall with gap for player spawn point
-        for(let i = 0; i < game.config.height; i += tileSize) { //Left wall
+
+        // Add top and bottom corridor walls
+        for(let i = 0; i < game.config.width / 2; i += tileSize) { //Top wall
+            let wallTile = this.physics.add.sprite(i, 400, 'wall').setOrigin(0);
+            wallTile.body.immovable = true;
+            wallTile.body.allowGravity = false;
+            this.walls.add(wallTile);
+        }
+        for(let i = 0; i < game.config.width / 2; i += tileSize) { //Bottom wall
+            let wallTile = this.physics.add.sprite(i, 500, 'wall').setOrigin(0);
+            wallTile.body.immovable = true;
+            wallTile.body.allowGravity = false;
+            this.walls.add(wallTile);
+        }
+
+    
+        // Connect open area to corridor
+        for(let i = 150; i < 750; i += tileSize) {
             if (i != game.config.height / 2) {
-                let wallTile = this.physics.add.sprite(0, i, 'wall').setOrigin(0);
+                let wallTile = this.physics.add.sprite(400, i, 'wall').setOrigin(0);
                 wallTile.body.immovable = true;
                 wallTile.body.allowGravity = false;
                 this.walls.add(wallTile);  
             }
         }
-        // Add right wall with three openings
-        for(let i = 0; i < game.config.height; i += tileSize) { //Right wall
+    
+        // Add right wall with exits
+        for(let i = 150; i < 750; i += tileSize) { //Right wall
             if (!this.exitsPos.includes(i)) {
                 let wallTile = this.physics.add.sprite(850 , i, 'wall').setOrigin(0);
                 wallTile.body.immovable = true;
@@ -58,27 +85,14 @@ class RoomFinal extends Phaser.Scene{
 
         // Add exit zones
         this.exitZones = this.add.group();
-        this.exitZones.add(this.physics.add.sprite(925, 200, 'wall').setOrigin(0));
-        this.exitZones.add(this.physics.add.sprite(925, 250, 'wall').setOrigin(0));
+        // Tile(s) for guide exit
+        // Tile(s) for trap exit
         this.exitZones.add(this.physics.add.sprite(925, 400, 'wall').setOrigin(0));
         this.exitZones.add(this.physics.add.sprite(925, 450, 'wall').setOrigin(0));
-        this.exitZones.add(this.physics.add.sprite(925, 600, 'wall').setOrigin(0));
-        this.exitZones.add(this.physics.add.sprite(925, 650, 'wall').setOrigin(0));
+        this.exitZones.add(this.physics.add.sprite(925, 500, 'wall').setOrigin(0));
+        // Tile(s) for secret exit
 
         this.physics.add.overlap(this.player, this.exitZones, ()=> { this.scene.start('roomSceneFinal'); }); // check if player collides with exit to next room
-
-        // Add light from exits
-        let r1 = this.add.arc(900, 250, 50, 90, 270, false, 0xFFFFFF, 0.4);
-        let r2 = this.add.arc(900, 450, 50, 90, 270, false, 0xf02929, 0.4);
-
-        this.tweens.add({
-
-            targets: r2,
-            alpha: 0.5,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.easeInOut'
-        });
     }
 
     update() {
