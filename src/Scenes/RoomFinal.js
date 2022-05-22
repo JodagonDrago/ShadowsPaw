@@ -6,6 +6,7 @@ class RoomFinal extends Phaser.Scene{
 
     preload() {
         this.load.image('secretWall', './assets/CrackedWall.png')
+        this.load.image('holeWall', './assets/HoleWall.png')
     }
 
     create() {
@@ -29,7 +30,12 @@ class RoomFinal extends Phaser.Scene{
             this.walls.add(wallTile);
         }
         for(let i = 400; i < game.config.width; i += tileSize) { //Top wall
-            let wallTile = this.physics.add.sprite(i, 150, 'wall').setOrigin(0);
+            let wallTile;
+            if (i == 500) {
+                wallTile = this.physics.add.sprite(i, 150, 'holeWall').setOrigin(0);
+            } else {
+                wallTile = this.physics.add.sprite(i, 150, 'wall').setOrigin(0);
+            }
             wallTile.body.immovable = true;
             wallTile.body.allowGravity = false;
             this.walls.add(wallTile);
