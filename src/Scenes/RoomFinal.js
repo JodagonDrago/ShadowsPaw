@@ -15,7 +15,7 @@ class RoomFinal extends Phaser.Scene{
         // Place map sprite
         console.log('Final room started');
         this.map1 = this.add.tileSprite(0, 450, 450, 50, 'map').setOrigin(0, 0);
-        this.map2 = this.add.tileSprite(450, 200, 450, 500, 'map').setOrigin(0, 0);
+        this.map2 = this.add.tileSprite(450, 200, 450, 600, 'map').setOrigin(0, 0);
 
         this.walls = this.add.group();
 
@@ -23,9 +23,9 @@ class RoomFinal extends Phaser.Scene{
         for(let i = 400; i < game.config.width; i += tileSize) { //Bottom wall
             let wallTile;
             if (i == 500) {
-                wallTile = this.physics.add.sprite(i, 700, 'secretWall').setOrigin(0);
+                wallTile = this.physics.add.sprite(i, 750, 'secretWall').setOrigin(0); // Add secret exit sprite
             } else {
-                wallTile = this.physics.add.sprite(i, 700, 'wall').setOrigin(0);
+                wallTile = this.physics.add.sprite(i, 750, 'wall').setOrigin(0);
             }
             wallTile.body.immovable = true;
             wallTile.body.allowGravity = false;
@@ -33,8 +33,8 @@ class RoomFinal extends Phaser.Scene{
         }
         for(let i = 400; i < game.config.width; i += tileSize) { //Top wall
             let wallTile;
-            if (i == 500) {
-                wallTile = this.physics.add.sprite(i, 150, 'holeWall').setOrigin(0);
+            if (i == 600) {
+                wallTile = this.physics.add.sprite(i, 150, 'holeWall').setOrigin(0); // Add guide exit sprite
             } else {
                 wallTile = this.physics.add.sprite(i, 150, 'wall').setOrigin(0);
             }
