@@ -7,6 +7,8 @@ class RoomFinal extends Phaser.Scene{
     preload() {
         this.load.image('secretWall', './assets/CrackedWall.png')
         this.load.image('holeWall', './assets/HoleWall.png')
+        this.load.image('eyes', './assets/Eye Glow.png')
+        this.load.image('redEyes', './assets/Red Eye Glow.png')
     }
 
     create() {
@@ -76,12 +78,36 @@ class RoomFinal extends Phaser.Scene{
             }  
         }
 
+        // Add enemy eyes in the void
+        this.eyes = this.add.group();
+        let eyesPosX = [100, 100, 200, 250, 300, 250, 100, 200, 150, 200, 300]; // X positions of eyes;
+        let eyesPosY = [100, 250, 150, 50, 150, 250, 650, 600, 750, 850, 700]; // Y positions of eyes;
+
+        for (let i = 0 ; i < eyesPosX.length; i++) {
+            let currEyes = this.add.sprite(eyesPosX[i], eyesPosY[i], 'eyes');
+            this.eyes.add(currEyes);
+        }
+
+        // Add guide in void
+        this.guide = this.physics.add.sprite(350, 350, 'redEyes').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
+        this.guide.body.immovable = true;
+        this.guide.body.allowGravity = false;
+
+
         // Add player
         this.player = new Player(this, 0, game.config.height / 2, 'player').setOrigin(0);
         this.physics.add.existing(this.player);
 
+        // add threat box for range where enemies become alerted. Check if it is a torch or not
+        if (hasTorch == false){
+            this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'threat').setOrigin(0.5);
+        } else {
+            this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'torch_light').setOrigin(0.5);
+        }
+
         // add physics colliders between player, enemies, and walls
         this.physics.add.collider(this.player, this.walls);
+        this.physics.add.overlap(this.threat, this.guide, this.startTalking); // make guide start talking if player is close enough
 
         // Set up cursor-key input for directional movement
         cursors = this.input.keyboard.createCursorKeys();
@@ -97,8 +123,18 @@ class RoomFinal extends Phaser.Scene{
         this.exitZones.add(this.physics.add.sprite(925, 450, 'wall').setOrigin(0));
         this.exitZones.add(this.physics.add.sprite(925, 500, 'wall').setOrigin(0));
         // Tile(s) for secret exit
-
         this.physics.add.overlap(this.player, this.exitZones, ()=> { this.scene.start('roomSceneFinal'); }); // check if player collides with exit to next room
+
+        // Add guide dialogue into an array by sentence
+        currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
+        totalText = 7; // Total sentences spoken by guide in this scene
+        textArray = [" ", "Your fate lies ahead...",  "I would take that hole in the wall if I were you", " "]
+        talking = false;
+        talking2 = false;
+        // Display current sentence and advance to next sentence
+        guideText = this.add.text(this.guide.x - 90, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0, 0.5);
+        //guide audio
+        voice = this.sound.add('voice', {volume: 0.5});
     }
 
     update() {
@@ -113,5 +149,16 @@ class RoomFinal extends Phaser.Scene{
 
         //update prefabs
         this.player.update();
+
+        // Update threat range
+        this.threat.update(this.player);
+    }
+
+    startTalking() {
+        if (talking == false){ //so it doesnt repeat
+            guideText.text = textArray[currText++]; //say the first line after " "
+            talking = true;
+            voice.play();
+        }
     }
 }
