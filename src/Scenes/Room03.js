@@ -270,7 +270,7 @@ class Room03 extends Phaser.Scene{
 
         // Add exit zone
         this.exitZone = this.physics.add.sprite(925, 750, 'wall').setOrigin(0);
-        this.physics.add.overlap(this.player, this.exitZone, ()=> { this.scene.start('menuScene'); }); // check if player collides with exit to next room
+        this.physics.add.overlap(this.player, this.exitZone, ()=> { this.scene.start('roomSceneFinal'); }); // check if player collides with exit to next room
 
     }
 
