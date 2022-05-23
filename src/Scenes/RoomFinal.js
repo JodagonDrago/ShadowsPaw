@@ -128,7 +128,7 @@ class RoomFinal extends Phaser.Scene{
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 7; // Total sentences spoken by guide in this scene
-        textArray = [" ", "Your fate lies ahead...",  "I would take that hole in the wall if I were you", " "]
+        textArray = [" ", "Your fate lies ahead", "If I were you...", "I would take that hole in the wall", " "]
         talking = false;
         talking2 = false;
         // Display current sentence and advance to next sentence
