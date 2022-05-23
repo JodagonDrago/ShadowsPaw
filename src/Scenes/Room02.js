@@ -6,6 +6,7 @@ class Room02 extends Phaser.Scene{
     preload() {
         // load images/tile sprites specific to this room
         this.load.image('pit', './assets/Pit.png');
+        this.load.image('eyes', './assets/Eye Glow.png');
         this.load.image('bridge', './assets/Cracking Bridge.png')
         this.load.audio('cracking', './assets/Cracking.wav');
         
@@ -150,8 +151,21 @@ class Room02 extends Phaser.Scene{
         this.pitBot.body.allowGravity = false;
         this.walls.add(this.pitBot);
 
+        this.shine = this.add.group();
+        this.shine1 = this.physics.add.sprite(550, 600, 'threat').setOrigin(0).setScale(0.2);
+        this.shine1.body.immovable = true;
+        this.shine1.body.allowGravity = false;
+        this.shine1.body.setCircle(15, 100, 100);
+        this.shine.add(this.shine1);
+
+        this.shine2 = this.physics.add.sprite(550, 800, 'threat').setOrigin(0).setScale(0.2);
+        this.shine2.body.immovable = true;
+        this.shine2.body.allowGravity = false;
+        this.shine2.body.setCircle(15, 100, 100);
+        this.shine.add(this.shine2);
+
         //add bridge
-        this.crumbling = this.add.group()
+        this.crumbling = this.add.group();
         for(let i = 300; i < 600; i += tileSize) { //right of corner
             let bridgeTile = this.physics.add.sprite(i, 250, 'bridge').setOrigin(0);
             bridgeTile.body.immovable = true;
@@ -190,9 +204,10 @@ class Room02 extends Phaser.Scene{
 
         // add threat box for range where enemies become alerted. Check if it is a torch or not
         if (hasTorch == false){
-            this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'threat').setOrigin(0.5);
+            this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'threat').setOrigin(0.5).setScale(0.9);
         } else {
             this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'torch_light').setOrigin(0.5);
+            this.threat.body.setCircle(200);
         }
 
         // add physics colliders between player, enemies, and walls
@@ -205,6 +220,7 @@ class Room02 extends Phaser.Scene{
         this.physics.add.overlap(this.threat, this.guide, this.startTalking); // make guide start talking if player is close enough
         this.physics.add.overlap(this.player, this.crumbling, this.sfx);
         this.physics.add.overlap(this.player, this.trigger, this.spawnEnemies);
+        this.physics.add.overlap(this.threat, this.shine, this.glowEyes);
 
         // Set up cursor-key input for directional movement
         cursors = this.input.keyboard.createCursorKeys();
@@ -216,8 +232,8 @@ class Room02 extends Phaser.Scene{
 
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
-        totalText = 7; // Total sentences spoken by guide in this scene
-        textArray = [" ", "Careful ahead...", "The lower bridge has an ambush.", "you wouldn't want that.", "Take the top bridge instead.", "I promise it'll hold.", "Heh heh heh heh...", " "]
+        totalText = 8; // Total sentences spoken by guide in this scene
+        textArray = [" ", "Hello again.", "Be careful ahead...", "The lower bridge has an ambush.", "you wouldn't want that.", "Take the top bridge instead.", "I promise it'll hold.", "Heh heh heh heh...", " "]
         talking = false;
         talking2 = false;
         // Display current sentence and advance to next sentence
@@ -227,7 +243,7 @@ class Room02 extends Phaser.Scene{
 
         // Add exit zone
         this.exitZone = this.physics.add.sprite(925, 450, 'wall').setOrigin(0);
-        this.physics.add.overlap(this.player, this.exitZone, ()=> { this.scene.start('menuScene'); }); // check if player collides with exit to next room
+        this.physics.add.overlap(this.player, this.exitZone, ()=> { this.scene.start('roomScene03'); }); // check if player collides with exit to next room
 
     }
 
@@ -261,12 +277,6 @@ class Room02 extends Phaser.Scene{
         enemies.setTexture('enemy');
     }
 
-    interact(player, torchTile){
-        torchTile.destroy();
-        hasTorch = true;
-        pickupSound.play();
-    }
-
     startTalking() {
         if (talking == false){ //so it doesnt repeat
             guideText.text = textArray[currText++]; //say the first line after " "
@@ -288,12 +298,24 @@ class Room02 extends Phaser.Scene{
             eventCheck = true;
             currentScene.enemy1.y = 650;
             currentScene.enemy2.y = 750;
+            console.log('check second'); 
+            if (hasTorch == true){ //stop eyes glowing
+                console.log('check last');
+                currentScene.shine1.destroy(); //setTexture('threat').setScale(0.2);
+                currentScene.shine2.destroy(); //setTexture('threat').setScale(0.2);
+            } 
         }
     }
     sfx(){
         // play cracking if it isnt already
         if (sfx.isPlaying == false){
             sfx.play();
+        }
+    }
+    glowEyes(threat, shine){ //eyes glow from torch light
+        if (hasTorch == true){
+            console.log('check first');
+            shine.setTexture('eyes').setScale(1);
         }
     }
 }

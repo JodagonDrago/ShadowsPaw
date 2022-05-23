@@ -8,6 +8,7 @@ class Menu extends Phaser.Scene{
         this.load.audio('music', './assets/Closing-In_Looping.mp3');
         this.load.audio('voice', './assets/Guide Voice.wav');
         this.load.audio('pickup', './assets/Pickup.wav');
+        this.load.audio('alert', './assets/Alert.wav');
 
         // load sprites that will appear in many rooms
         this.load.image('map', './assets/Room.png');
@@ -46,20 +47,13 @@ class Menu extends Phaser.Scene{
             this.prompt.destroy();
             this.title.text = "USE ARROW KEYS TO MOVE"
 
-            /*
             this.time.delayedCall(2000, () => {
                 this.title.text = "PRESS SPACE TO ADVANCE DIALOGUE"
             }, null, this);
 
             this.time.delayedCall(4500, () => {
-                this.title.text = "TRUST YOUR INSTINCTS"
-
+                this.scene.start('roomScene01');
             }, null, this);
-
-            this.time.delayedCall(7000, () => {
-                this.scene.start('roomScene01'); 
-            }, null, this);
-            */
         }
         
       }

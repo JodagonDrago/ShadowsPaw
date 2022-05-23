@@ -8,8 +8,8 @@ let keyUP, keyDOWN, keyLEFT, keyRIGHT, keySPACE; // Input keys
 let threat;
 let music;
 const tileSize = 50;
-var enemySpeed = 80;
-var playerSpeed = 500;
+var enemySpeed = 90; //higher is faster
+var playerSpeed = 500; //lower is faster
 var hasTorch = false;
 
 //Global dialogue variables
@@ -38,14 +38,15 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+            debug: false,
             gravity: {
                 x: 0,
                 y: 0
             }
         }
     },
-    scene: [Menu, Room01, Room02, RoomFinal, GameOver]
+
+    scene: [Menu, Room01, Room02, Room03, RoomFinal, GameOver]
 }
 
 // Instantiate text config for dialogue
@@ -66,4 +67,4 @@ let game = new Phaser.Game(config)
 // such as detection range and movespeed
 
 // Start menu scene
-game.scene.start('Menu');
+game.scene.start('menuScene');

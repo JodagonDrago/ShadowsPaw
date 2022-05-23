@@ -11,6 +11,7 @@ class Room01 extends Phaser.Scene{
 
     create(){
         console.log('room 1 started');
+        currentScene = this;
 
         // place map sprite
         this.map = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'map').setOrigin(0, 0);
@@ -131,10 +132,11 @@ class Room01 extends Phaser.Scene{
         this.guide.body.allowGravity = false;
 
         // add threat box for range where enemies become alerted. (in later rooms, check to see if player has torch and add torch instead of threat if they do)
-        this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'threat').setOrigin(0.5);
-
+        this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'threat').setOrigin(0.5).setScale(0.9);
+        
         // add torch in case it is picked up, but hide it off screen. In future scenes, check if hasTorch is true for which threat to make
         this.newThreat = new Threat(this, -500, -500, 'torch_light').setOrigin(0.5);
+        this.newThreat.body.setCircle(200);
 
         // add physics colliders between player, enemies, and walls
         this.physics.add.collider(this.player, this.walls);
