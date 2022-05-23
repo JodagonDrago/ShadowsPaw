@@ -30,6 +30,7 @@ class Menu extends Phaser.Scene{
         this.prompt = this.add.text(game.config.width/2, game.config.height/2 + 100, 'Press SPACE').setOrigin(0.5);
 
         hasKey = false; //ensure player doesnt start with a key from a previous run
+        eventCheck = false; //ensure player cant hit space repeatedly
 
         // Define keys that aren't for movement
         keySPACE = this.input.keyboard.addKey('SPACE');
@@ -44,7 +45,8 @@ class Menu extends Phaser.Scene{
 
     update() {
         // Start game when Space Bar is pushed
-        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+        if (Phaser.Input.Keyboard.JustDown(keySPACE) && eventCheck == false) {
+            eventCheck = true;
             this.prompt.destroy();
             this.title.text = "USE ARROW KEYS TO MOVE"
 

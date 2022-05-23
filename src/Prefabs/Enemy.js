@@ -7,6 +7,7 @@ class Enemy extends Phaser.GameObjects.Sprite{ //made a physics object instead o
         scene.physics.world.enable(this); //this gives the prefab physics
         this.body.allowGravity = false; //no gravity cause it's top down
         this.body.setCircle(25); //circle collider to avoid getting stuck on the walls
+        this.body.pushable = false;
         scene.add.existing(this);
 
         this.alert = false;
