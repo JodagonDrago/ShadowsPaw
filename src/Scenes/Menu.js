@@ -43,6 +43,7 @@ class Menu extends Phaser.Scene{
     update() {
         // Start game when Space Bar is pushed
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+            this.scene.start('roomSceneFinal')// FIXME DO NOT PUSH TO MASTER
             this.prompt.destroy();
             this.title.text = "USE ARROW KEYS TO MOVE"
 
