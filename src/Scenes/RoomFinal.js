@@ -7,8 +7,8 @@ class RoomFinal extends Phaser.Scene{
     preload() {
         this.load.image('secretWall', './assets/CrackedWall.png')
         this.load.image('holeWall', './assets/HoleWall.png')
-        this.load.image('eyes', './assets/EyeGlow.png')
-        this.load.image('redEyes', './assets/RedEyeGlow.png')
+        this.load.image('eyes', './assets/Eye Glow.png')
+        this.load.image('redEyes', './assets/Red Eye Glow.png')
     }
 
     create() {
