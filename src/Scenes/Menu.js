@@ -29,6 +29,8 @@ class Menu extends Phaser.Scene{
         this.title = this.add.text(game.config.width/2, game.config.height/2, 'TRUSTING SHADOWS').setOrigin(0.5);
         this.prompt = this.add.text(game.config.width/2, game.config.height/2 + 100, 'Press SPACE').setOrigin(0.5);
 
+        hasKey = false; //ensure player doesnt start with a key from a previous run
+
         // Define keys that aren't for movement
         keySPACE = this.input.keyboard.addKey('SPACE');
 

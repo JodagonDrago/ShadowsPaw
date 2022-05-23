@@ -12,35 +12,44 @@ class RoomFinal extends Phaser.Scene{
     }
 
     create() {
+        this.testing = false; //changes eyes
+
         // Place map sprite
         console.log('Final room started');
         this.map1 = this.add.tileSprite(0, 450, 450, 50, 'map').setOrigin(0, 0);
         this.map2 = this.add.tileSprite(450, 200, 450, 600, 'map').setOrigin(0, 0);
 
         this.walls = this.add.group();
+        this.guideExit;
+        this.secretExit;
 
         // Add top and bottom walls of open area
         for(let i = 400; i < game.config.width; i += tileSize) { //Bottom wall
             let wallTile;
             if (i == 500) {
-                wallTile = this.physics.add.sprite(i, 750, 'secretWall').setOrigin(0); // Add secret exit sprite
+                this.secretExit = this.physics.add.sprite(i, 750, 'secretWall').setOrigin(0); // Add secret exit sprite
+                this.secretExit.body.immovable = true;
+                this.secretExit.body.allowGravity = false;
             } else {
                 wallTile = this.physics.add.sprite(i, 750, 'wall').setOrigin(0);
+                wallTile.body.immovable = true;
+                wallTile.body.allowGravity = false;
+                this.walls.add(wallTile);
             }
-            wallTile.body.immovable = true;
-            wallTile.body.allowGravity = false;
-            this.walls.add(wallTile);
         }
         for(let i = 400; i < game.config.width; i += tileSize) { //Top wall
             let wallTile;
             if (i == 600) {
-                wallTile = this.physics.add.sprite(i, 150, 'holeWall').setOrigin(0); // Add guide exit sprite
+                this.guideExit = this.physics.add.sprite(i, 150, 'holeWall').setOrigin(0); // Add guide exit sprite
+                this.guideExit.body.setCircle(5, 25, 25);
+                this.guideExit.body.immovable = true;
+                this.guideExit.body.allowGravity = false;
             } else {
                 wallTile = this.physics.add.sprite(i, 150, 'wall').setOrigin(0);
+                wallTile.body.immovable = true;
+                wallTile.body.allowGravity = false;
+                this.walls.add(wallTile);
             }
-            wallTile.body.immovable = true;
-            wallTile.body.allowGravity = false;
-            this.walls.add(wallTile);
         }
 
         // Add top and bottom corridor walls
@@ -80,11 +89,16 @@ class RoomFinal extends Phaser.Scene{
 
         // Add enemy eyes in the void
         this.eyes = this.add.group();
-        let eyesPosX = [100, 100, 200, 250, 300, 250, 100, 200, 150, 200, 300]; // X positions of eyes;
-        let eyesPosY = [100, 250, 150, 50, 150, 250, 650, 600, 750, 850, 700]; // Y positions of eyes;
+        if (this.testing == false){
+            this.eyesPosX = [100, 100, 200, 250, 300, 250, 100, 200, 150, 200, 300]; // X positions of eyes;
+            this.eyesPosY = [100, 250, 150, 50, 150, 250, 650, 600, 750, 850, 700]; // Y positions of eyes;
+        } else {
+            this.eyesPosX = [50, 25, 50, 100, 200, 250, 150, 200, 300, 350, 325, 375, 450, 600, 650, 725, 775, 850, 875]; // X positions of eyes;
+            this.eyesPosY = [700, 575, 875, 650, 600, 700, 750, 850, 700, 600, 800, 850, 875, 825, 875, 850, 850, 825, 875]; // Y positions of eyes;
+        }
 
-        for (let i = 0 ; i < eyesPosX.length; i++) {
-            let currEyes = this.add.sprite(eyesPosX[i], eyesPosY[i], 'eyes');
+        for (let i = 0 ; i < this.eyesPosX.length; i++) {
+            let currEyes = this.add.sprite(this.eyesPosX[i], this.eyesPosY[i], 'eyes');
             this.eyes.add(currEyes);
         }
 
@@ -115,26 +129,27 @@ class RoomFinal extends Phaser.Scene{
         // Define keys that aren't for movement
         keySPACE = this.input.keyboard.addKey('SPACE');
 
-        // Add exit zones
-        this.exitZones = this.add.group();
-        // Tile(s) for guide exit
-        // Tile(s) for trap exit
-        this.exitZones.add(this.physics.add.sprite(925, 400, 'wall').setOrigin(0));
-        this.exitZones.add(this.physics.add.sprite(925, 450, 'wall').setOrigin(0));
-        this.exitZones.add(this.physics.add.sprite(925, 500, 'wall').setOrigin(0));
-        // Tile(s) for secret exit
-        this.physics.add.overlap(this.player, this.exitZones, ()=> { this.scene.start('roomSceneFinal'); }); // check if player collides with exit to next room
-
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
-        totalText = 7; // Total sentences spoken by guide in this scene
-        textArray = [" ", "Your fate lies ahead", "If I were you...", "I would take that hole in the wall", " "]
+        totalText = 9; // Total sentences spoken by guide in this scene
+        textArray = [" ", "You're almost out", "But there's just one last danger...", "Another ambush waiting for you.", "Right through that big exit.", "But don't worry...", "I made an opening in the wall for you.", "You can go through it isntead!", "Go on, you're so close!", " "]
         talking = false;
         talking2 = false;
         // Display current sentence and advance to next sentence
-        guideText = this.add.text(this.guide.x - 90, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0, 0.5);
+        guideText = this.add.text(this.guide.x + 25, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0.5);
         //guide audio
         voice = this.sound.add('voice', {volume: 0.5});
+
+        // Add exit zones
+        // Guide exit
+        this.physics.add.overlap(this.player, this.guideExit, ()=> { this.scene.start('menuScene'); }); // check if player collides with guide exit
+        // Trap exit
+        this.exitZone = this.physics.add.sprite(925, 400, 'wall').setOrigin(0).setScale(1, 3);
+        this.physics.add.overlap(this.player, this.exitZone, ()=> { this.scene.start('gameOverScene'); }); // check if player collides with trap exit
+        // Secret exit
+        this.unlockedExit = this.physics.add.sprite(500, 775, 'threat').setOrigin(0).setScale(0.2); //make secret exit past lock
+        this.physics.add.collider(this.player, this.secretExit, this.keyCheck); // check if player collides with secret exit lock and open it if they have key
+        this.physics.add.overlap(this.player, this.unlockedExit, ()=> { this.scene.start('menuScene'); }); // check if player collides with unlocked exit
     }
 
     update() {
@@ -159,6 +174,12 @@ class RoomFinal extends Phaser.Scene{
             guideText.text = textArray[currText++]; //say the first line after " "
             talking = true;
             voice.play();
+        }
+    }
+
+    keyCheck(player, secretExit) {
+        if (hasKey == true){
+            secretExit.destroy();
         }
     }
 }

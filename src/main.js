@@ -24,6 +24,7 @@ let tutorialText;
 //effect controllers
 let eventCheck = false; //checker for events
 let currentScene;
+let hasKey; //the key!
 
 //audio variables need to be global to execute in functions
 let voice;

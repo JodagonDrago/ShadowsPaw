@@ -1,6 +1,8 @@
 class Room03 extends Phaser.Scene{
     constructor(){
         super("roomScene03"); // Follow naming convention for future rooms
+        this.exitsPos = [750]; // Y positions of exits across right wall
+        this.entrancePos = [750]; // Y positions of exits across right wall
     }
 
     preload() {
@@ -41,30 +43,23 @@ class Room03 extends Phaser.Scene{
             wallTile.body.allowGravity = false;
             this.walls.add(wallTile);
         }
-        for(let i = 0; i < 750; i += tileSize) {  //Left wall top
-            let wallTile = this.physics.add.sprite(0, i, 'wall').setOrigin(0);
-            wallTile.body.immovable = true;
-            wallTile.body.allowGravity = false;
-            this.walls.add(wallTile);
-        }
-        for(let i = 800; i < game.config.height; i += tileSize) {  //Left wall bottom
-            let wallTile = this.physics.add.sprite(0, i, 'wall').setOrigin(0);
-            wallTile.body.immovable = true;
-            wallTile.body.allowGravity = false;
-            this.walls.add(wallTile);
+        //we leave a gap in the wall for an enterance
+        for(let i = 0; i < game.config.height; i += tileSize) { //Left wall
+            if (!this.entrancePos.includes(i)) {
+                let wallTile = this.physics.add.sprite(0, i, 'wall').setOrigin(0);
+                wallTile.body.immovable = true;
+                wallTile.body.allowGravity = false;
+                this.walls.add(wallTile);
+            }
         }
         // we leave a gap in the wall for an exit
-        for(let i = 0; i < 750; i += tileSize) { //Right wall top
-            let wallTile = this.physics.add.sprite(game.config.width - tileSize, i, 'wall').setOrigin(0);
-            wallTile.body.immovable = true;
-            wallTile.body.allowGravity = false;
-            this.walls.add(wallTile);
-        }
-        for(let i = 800; i < game.config.height; i += tileSize) { //Right wall bottom
-            let wallTile = this.physics.add.sprite(game.config.width - tileSize, i, 'wall').setOrigin(0);
-            wallTile.body.immovable = true;
-            wallTile.body.allowGravity = false;
-            this.walls.add(wallTile);
+        for(let i = 0; i < game.config.height; i += tileSize) { //Right wall
+            if (!this.exitsPos.includes(i)) {
+                let wallTile = this.physics.add.sprite(game.config.width - tileSize, i, 'wall').setOrigin(0);
+                wallTile.body.immovable = true;
+                wallTile.body.allowGravity = false;
+                this.walls.add(wallTile);
+            }
         }
         //Next add interior walls
         

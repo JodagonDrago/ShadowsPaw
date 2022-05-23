@@ -1,6 +1,7 @@
 class Room01 extends Phaser.Scene{
     constructor(){
         super("roomScene01"); // Follow naming convention for future rooms
+        this.exitsPos = [350]; // Y positions of exits across right wall
     }
 
     preload() {
@@ -43,17 +44,13 @@ class Room01 extends Phaser.Scene{
             this.walls.add(wallTile);
         }
         // we leave a gap in the wall for an exit
-        for(let i = 0; i < 350; i += tileSize) { //Right wall bottom
-            let wallTile = this.physics.add.sprite(game.config.width - tileSize, i, 'wall').setOrigin(0);
-            wallTile.body.immovable = true;
-            wallTile.body.allowGravity = false;
-            this.walls.add(wallTile);
-        }
-        for(let i = 400; i < game.config.height; i += tileSize) { //Left wall
-            let wallTile = this.physics.add.sprite(game.config.width - tileSize, i, 'wall').setOrigin(0);
-            wallTile.body.immovable = true;
-            wallTile.body.allowGravity = false;
-            this.walls.add(wallTile);
+        for(let i = 0; i < game.config.height; i += tileSize) { //Right wall
+            if (!this.exitsPos.includes(i)) {
+                let wallTile = this.physics.add.sprite(game.config.width - tileSize, i, 'wall').setOrigin(0);
+                wallTile.body.immovable = true;
+                wallTile.body.allowGravity = false;
+                this.walls.add(wallTile);
+            }
         }
         //Next add interior walls
         let aTile = this.physics.add.sprite(50, 800, 'wall').setOrigin(0); //the 1 block in bottom right
