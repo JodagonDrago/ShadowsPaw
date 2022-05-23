@@ -112,15 +112,21 @@ class Room02 extends Phaser.Scene{
             wallTile.body.allowGravity = false;
             this.walls.add(wallTile);
         }
-        //corner for guide
-        for(let i = 50; i < 200; i += tileSize) { //top of corner
-            let wallTile = this.physics.add.sprite(i, 600, 'wall').setOrigin(0);
+        //room for guide
+        for(let i = 100; i < 250; i += tileSize) { //top of room
+            let wallTile = this.physics.add.sprite(i, 350, 'wall').setOrigin(0);
             wallTile.body.immovable = true;
             wallTile.body.allowGravity = false;
             this.walls.add(wallTile);
         }
-        for(let i = 650; i < 850; i += tileSize) { //right of corner
-            let wallTile = this.physics.add.sprite(150, i, 'wall').setOrigin(0);
+        for(let i = 100; i < 250; i += tileSize) { //bottom of room
+            let wallTile = this.physics.add.sprite(i, 550, 'wall').setOrigin(0);
+            wallTile.body.immovable = true;
+            wallTile.body.allowGravity = false;
+            this.walls.add(wallTile);
+        }
+        for(let i = 400; i < 550; i += tileSize) { //wall of room
+            let wallTile = this.physics.add.sprite(100, i, 'wall').setOrigin(0);
             wallTile.body.immovable = true;
             wallTile.body.allowGravity = false;
             this.walls.add(wallTile);
@@ -193,7 +199,7 @@ class Room02 extends Phaser.Scene{
         this.trigger.body.allowGravity = false;
 
         // add guide
-        this.guide = this.physics.add.sprite(100, 650, 'enemy').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
+        this.guide = this.physics.add.sprite(150, 450, 'enemy').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
         this.guide.body.immovable = true;
         this.guide.body.allowGravity = false;
 
@@ -229,7 +235,7 @@ class Room02 extends Phaser.Scene{
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 8; // Total sentences spoken by guide in this scene
-        textArray = [" ", "Hello again.", "Be careful ahead...", "The lower bridge has an ambush.", "you wouldn't want that.", "Take the top bridge instead.", "I promise it'll hold.", "Heh heh heh heh...", " "]
+        textArray = [" ", "Hello again.⇨", "Be careful ahead...⇨", "The lower bridge has an ambush.⇨", "you wouldn't want that.⇨", "Take the top bridge instead.⇨", "I promise it'll hold.⇨", "Heh heh heh heh...", " "]
         talking = false;
         talking2 = false;
         // Display current sentence and advance to next sentence
