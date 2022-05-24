@@ -11,6 +11,7 @@ class Room02 extends Phaser.Scene{
         this.load.image('eyes', './assets/Eye Glow.png');
         this.load.image('bridge', './assets/Cracking Bridge.png')
         this.load.audio('cracking', './assets/Cracking.wav');
+        this.load.image('dust', './assets/Crumble_Dust.png')
         
     }
 
@@ -177,16 +178,17 @@ class Room02 extends Phaser.Scene{
         // add cracking sound and visuals
         sfx = this.sound.add('cracking', {volume: 0.5});
 
-        this.particles = this.add.particles('eyes');
+        this.particles = this.add.particles('dust');
         this.particles.x = 300;
         this.particles.y = 300;
         this.particles.createEmitter({
             lifespan: 1000,
-            speed: { min: 50, max: 100 },
+            speed: { min: 10, max: 20 },
             angle: 90,
             gravityY: 50,
-            scale: { start: 0.4, end: 0 },
-            quantity: 2,
+            scale: { start: 1, end: 0.4 },
+            quantity: 1,
+            frequency: 500
         });
         this.particles.pause();
 
