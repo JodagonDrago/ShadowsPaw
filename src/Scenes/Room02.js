@@ -235,7 +235,7 @@ class Room02 extends Phaser.Scene{
         this.physics.add.overlap(this.player, this.enemies, ()=> { this.scene.start('gameOverScene'); }); // check if player is hit by enemy and game over if they do
         this.physics.add.overlap(this.threat, this.enemies, this.alerting); // check if player detection range collides with enemy and alert enemy
         this.physics.add.overlap(this.threat, this.guide, this.startTalking); // make guide start talking if player is close enough
-        this.physics.add.overlap(this.player, this.crumbling, this.sfx);
+        this.physics.add.overlap(this.player, this.crumbling, this.crumble);
         this.physics.add.overlap(this.player, this.trigger, this.spawnEnemies);
         this.physics.add.overlap(this.threat, this.shine, this.glowEyes);
 
@@ -323,7 +323,7 @@ class Room02 extends Phaser.Scene{
             } 
         }
     }
-    sfx(){
+    crumble(){
         // play cracking if it isnt already
         if (sfx.isPlaying == false){
             sfx.play();
