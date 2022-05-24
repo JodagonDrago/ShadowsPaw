@@ -178,7 +178,7 @@ class Room02 extends Phaser.Scene{
         // add cracking sound and visuals
         sfx = this.sound.add('cracking', {volume: 0.5});
 
-        this.particles = this.add.particles('dust');
+        this.particles = this.add.particles('dust'); // Particles for crumbling dust
         this.particles.x = 300;
         this.particles.y = 300;
         this.particles.createEmitter({
@@ -328,10 +328,11 @@ class Room02 extends Phaser.Scene{
         if (sfx.isPlaying == false){
             sfx.play();
         }
+        // Pause particle emitter and make particles invisible when off the bridge
         if (currentScene.player.x < 275 || currentScene.player.x > 575 ) {
             currentScene.particles.pause();
             currentScene.particles.visible = false;
-        } else {
+        } else { // If player is on the bridge, resume particle emitter
             currentScene.particles.x = currentScene.player.x + 25;
             currentScene.particles.resume();
             currentScene.particles.visible = true; 
