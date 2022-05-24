@@ -48,6 +48,7 @@ class Menu extends Phaser.Scene{
     }
 
     update() {
+        this.scene.start('roomScene02');
         // Start game when Space Bar is pushed
         if (Phaser.Input.Keyboard.JustDown(keySPACE) && eventCheck == false) {
             eventCheck = true;

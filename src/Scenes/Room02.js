@@ -174,8 +174,21 @@ class Room02 extends Phaser.Scene{
             this.crumbling.add(bridgeTile);
         }
 
-        // add cracking
+        // add cracking sound and visuals
         sfx = this.sound.add('cracking', {volume: 0.5});
+
+        this.particles = this.add.particles('eyes');
+        this.particles.x = 300;
+        this.particles.y = 300;
+        this.particles.createEmitter({
+            lifespan: 1000,
+            speed: { min: 50, max: 100 },
+            angle: 90,
+            gravityY: 50,
+            scale: { start: 0.4, end: 0 },
+            quantity: 2,
+        });
+        this.particles.pause();
 
         // add player at map enterance
         this.player = new Player(this, 0, 450, 'player').setOrigin(0);
@@ -313,6 +326,15 @@ class Room02 extends Phaser.Scene{
         if (sfx.isPlaying == false){
             sfx.play();
         }
+        if (currentScene.player.x < 275 || currentScene.player.x > 575 ) {
+            currentScene.particles.pause();
+            currentScene.particles.visible = false;
+        } else {
+            currentScene.particles.x = currentScene.player.x + 25;
+            currentScene.particles.resume();
+            currentScene.particles.visible = true; 
+        }
+        
     }
     glowEyes(threat, shine){ //eyes glow from torch light
         if (hasTorch == true){
