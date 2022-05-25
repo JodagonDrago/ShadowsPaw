@@ -10,6 +10,7 @@ class Room03 extends Phaser.Scene{
         this.load.image('spikes off', './assets/Spikes Off.png');
         this.load.image('spikes on', './assets/Spikes On.png');
         this.load.audio('spikes', './assets/Spikes.wav');
+        this.load.image('blood', './assets/Blood.png')
         
     }
 
@@ -191,8 +192,23 @@ class Room03 extends Phaser.Scene{
         this.spikes.body.immovable = true;
         this.spikes.body.allowGravity = false;
 
-        // add spike sound
+        // add spike sound and visuals from getting hurt
         sfx = this.sound.add('spikes', {volume: 0.5});
+
+        this.blood = this.add.particles('blood');
+        this.blood.createEmitter({
+            lifespan: 1000,
+            speed: { min: 10, max: 20 },
+            angle: 180,
+            gravityY: 50,
+            scale: { start: 1, end: 0.4 },
+            quantity: 1,
+            frequency: 500
+        });
+        this.blood.pause();
+
+        // Add camera for damage effect
+        this.shakeCamera = this.cameras.add(0, 0, 900, 900);
 
         // add player at map enterance
         this.player = new Player(this, 0, 750, 'player').setOrigin(0);
@@ -293,6 +309,12 @@ class Room03 extends Phaser.Scene{
 
         this.threat.update(this.player); //passing player into threat so it can follow the player
 
+        // Update blood particles
+        if (isBleeding) {
+            this.blood.x = this.player.x + 20; // Offset by 20 so it is aligned to player
+            this.blood.y = this.player.y + 50; // Offset by ten so it appears at feet of player
+        }
+
 
         // check if player collides with exit to next room
     }
@@ -325,6 +347,15 @@ class Room03 extends Phaser.Scene{
             sfx.play();
             playerSpeed = 800;
         }
+
+        // Start blood particles and play dmg effect
+        if (!isBleeding) {
+           currentScene.shakeCamera.shake(700, 0.025);
+           currentScene.shakeCamera.flash(150, 255, 0, 0); 
+        }
+        isBleeding = true;
+        currentScene.blood.resume();
+        
     }
 
 }
