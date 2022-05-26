@@ -11,6 +11,7 @@ const tileSize = 50;
 var enemySpeed = 90; //higher is faster
 var playerSpeed = 500; //lower is faster
 var hasTorch = false;
+let testing = false;
 
 //Global dialogue variables
 var currText; // Current sentence to display

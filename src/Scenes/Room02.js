@@ -153,6 +153,11 @@ class Room02 extends Phaser.Scene{
         this.pitBot.body.allowGravity = false;
         this.walls.add(this.pitBot);
 
+        //pit under crumbling bridge
+        this.pitBot = this.physics.add.sprite(300, 250, 'pit').setOrigin(0).setScale(6, 1);
+        this.pitBot.body.immovable = true;
+        this.pitBot.body.allowGravity = false;
+
         this.shine = this.add.group();
         this.shine1 = this.physics.add.sprite(550, 600, 'threat').setOrigin(0).setScale(0.2);
         this.shine1.body.immovable = true;
@@ -250,7 +255,7 @@ class Room02 extends Phaser.Scene{
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 8; // Total sentences spoken by guide in this scene
-        textArray = [" ", "Hello again.⇨", "Be careful ahead...⇨", "The lower bridge has an ambush.⇨", "you wouldn't want that.⇨", "Take the top bridge instead.⇨", "I promise it'll hold.⇨", "Heh heh heh heh...", " "]
+        textArray = [" ", "Hello again.⇨", "Be careful ahead...➤", "The lower bridge has an ambush.➤", "you wouldn't want that.➤", "Take the top bridge instead.➤", "I promise it'll hold.➤", "Heh heh heh heh...", " "]
         talking = false;
         talking2 = false;
         // Display current sentence and advance to next sentence

@@ -27,7 +27,7 @@ class Menu extends Phaser.Scene{
     create(){
         // add menu image
         this.title = this.add.text(game.config.width/2, game.config.height/2, 'TRUSTING SHADOWS').setOrigin(0.5);
-        this.prompt = this.add.text(game.config.width/2, game.config.height/2 + 100, 'Press SPACE').setOrigin(0.5);
+        this.prompt = this.add.text(game.config.width/2, game.config.height/2 + 100, 'Press SPACE to start').setOrigin(0.5);
 
         //ensure player doesnt start with variables from previous runs
         hasKey = false;
@@ -49,19 +49,16 @@ class Menu extends Phaser.Scene{
 
     update() {
         // Start game when Space Bar is pushed
-        if (Phaser.Input.Keyboard.JustDown(keySPACE) && eventCheck == false) {
-            eventCheck = true;
-            this.prompt.destroy();
-            this.title.text = "USE ARROW KEYS TO MOVE"
-
-            this.time.delayedCall(2000, () => {
-                this.title.text = "PRESS SPACE TO ADVANCE DIALOGUE"
-            }, null, this);
-
-            this.time.delayedCall(4500, () => {
+        if (Phaser.Input.Keyboard.JustDown(keySPACE)){
+            if (eventCheck == false) {
+                this.prompt.text = "PRESS SPACE TO ADVANCE DIALOGUE WHEN YOU SEE ➤"
+                this.title.text = "USE ARROW KEYS TO MOVE"
+                eventCheck = true;
+                console.log(eventCheck);
+            } else if (eventCheck == true) {
+                console.log(eventCheck);
                 this.scene.start('roomScene01');
-            }, null, this);
+            }
         }
-        
       }
 }

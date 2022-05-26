@@ -272,11 +272,11 @@ class Room03 extends Phaser.Scene{
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 10; // Total sentences spoken by guide in this scene
-        textArray = [" ", "See? I'm your friend. Heh heh heh.⇨", "And I want to help you escape.⇨", "You just have to trust me. Afterall...⇨", "I'm more familiar with this place than you.⇨", "Take the spike trap ahead for instance,⇨", "It's old, and doesnt work propperly anymore.⇨", "You can cross it and it wont kill you.⇨", "Far safer than going through the den up North.⇨", "Trust me.", " "]
+        textArray = [" ", "See? I'm your friend. Heh heh heh.➤", "And I want to help you escape.➤", "You just have to trust me. Afterall...➤", "I'm more familiar with this place than you.➤", "Take the spike trap ahead for instance,➤", "It's old, and doesnt work propperly anymore.➤", "You can cross it and it wont kill you.➤", "Far safer than going through the den up North.➤", "Trust me.", " "]
         talking = false;
         talking2 = false;
         // Display current sentence and advance to next sentence
-        guideText = this.add.text(this.guide.x + 25, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0.5);
+        guideText = this.add.text(this.guide.x - 75, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0, 0.5);
         //guide audio
         voice = this.sound.add('voice', {volume: 0.5});
 
@@ -333,7 +333,7 @@ class Room03 extends Phaser.Scene{
         if (eventCheck == true && talking2 == false){ //after enemies spawn
             currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
             totalText = 4;
-            textArray = ["See? I told you it wouldn't kill you.⇨", "A little pain never killed anybody.⇨", "And you can heal later.⇨", "Heh heh heh heh...", " "]
+            textArray = ["See? I told you it wouldn't kill you.➤", "A little pain never killed anybody.➤", "And you can heal later.➤", "Heh heh heh heh...", " "]
             guideText.text = textArray[currText++]; //say the first line after " "
             talking2 = true;
             voice.play();

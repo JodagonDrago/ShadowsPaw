@@ -12,7 +12,6 @@ class RoomFinal extends Phaser.Scene{
     }
 
     create() {
-        this.testing = true; //changes eyes
 
         // Place map sprite
         console.log('Final room started');
@@ -89,7 +88,7 @@ class RoomFinal extends Phaser.Scene{
 
         // Add enemy eyes in the void
         this.eyes = this.add.group();
-        if (this.testing == false){
+        if (testing == false){
             this.eyesPosX = [100, 100, 200, 250, 300, 250, 100, 200, 150, 200, 300]; // X positions of eyes;
             this.eyesPosY = [100, 250, 150, 50, 150, 250, 650, 600, 750, 850, 700]; // Y positions of eyes;
         } else {
@@ -132,7 +131,7 @@ class RoomFinal extends Phaser.Scene{
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 9; // Total sentences spoken by guide in this scene
-        textArray = [" ", "You're almost out.⇨", "But there's just one last danger...⇨", "Another ambush waiting for you.⇨", "Right through that big exit.⇨", "But don't worry...⇨", "I made an opening in the wall for you.⇨", "You can go through it isntead!⇨", "Go on, you're so close!", " "]
+        textArray = [" ", "You're almost out.➤", "But there's just one last danger...➤", "Another ambush waiting for you.➤", "Right through that big exit.➤", "But don't worry...➤", "I made an opening in the wall for you.➤", "You can go through it isntead!➤", "Go on, you're so close!", " "]
         talking = false;
         talking2 = false;
         // Display current sentence and advance to next sentence
@@ -150,6 +149,8 @@ class RoomFinal extends Phaser.Scene{
         this.unlockedExit = this.physics.add.sprite(500, 775, 'threat').setOrigin(0).setScale(0.2); //make secret exit past lock
         this.physics.add.collider(this.player, this.secretExit, this.keyCheck); // check if player collides with secret exit lock and open it if they have key
         this.physics.add.overlap(this.player, this.unlockedExit, ()=> { this.scene.start('menuScene'); }); // check if player collides with unlocked exit
+
+        testing = true;
     }
 
     update() {

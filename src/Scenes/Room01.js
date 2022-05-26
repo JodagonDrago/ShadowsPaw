@@ -159,7 +159,7 @@ class Room01 extends Phaser.Scene{
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 9; // Total sentences spoken by guide in this scene
-        textArray = [" ", "Hello... you look scared...⇨", "Do you need help getting out of here?⇨", "I can help. Trust me.⇨", "The exit's further ahead.⇨", "but before you go...⇨", "There's an old torch up ahead.⇨", "If you pick it up, the light it shines...⇨", "will make the monsters more hesitant to approach you.", " "]
+        textArray = [" ", "Hello... you look scared...➤", "Do you need help getting out of here?➤", "I can help. Trust me.➤", "The exit's further ahead.➤", "but before you go...➤", "There's an old torch up ahead.➤", "If you pick it up, the light it shines...➤", "will make the monsters more hesitant to approach you.", " "]
         talking = false;
         talking2 = false;
         // Display current sentence and advance to next sentence
@@ -220,7 +220,7 @@ class Room01 extends Phaser.Scene{
         if (talking2 == false){ //so it doesnt repeat
             currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
             totalText = 2;
-            textArray = ["Oops, looks like they see you from further now too.⇨", "Heh heh heh, I'm sure you'll be fine."," "]
+            textArray = ["Oops, looks like they see you from further now too.➤", "Heh heh heh, I'm sure you'll be fine."," "]
             guideText.text = textArray[currText++]; //say the first line after " "
             talking2 = true;
             voice.play();
