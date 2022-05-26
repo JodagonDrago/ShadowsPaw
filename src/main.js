@@ -30,6 +30,7 @@ let hasKey; //the key!
 let voice;
 let pickupSound;
 let sfx;
+let isBleeding;
 
 // Set up config file
 let config = {
