@@ -11,6 +11,7 @@ class Room02 extends Phaser.Scene{
         this.load.image('eyes', './assets/Eye Glow.png');
         this.load.image('bridge', './assets/Cracking Bridge.png')
         this.load.audio('cracking', './assets/Cracking.wav');
+        this.load.image('dust', './assets/Crumble_Dust.png')
         
     }
 
@@ -174,8 +175,22 @@ class Room02 extends Phaser.Scene{
             this.crumbling.add(bridgeTile);
         }
 
-        // add cracking
+        // add cracking sound and visuals
         sfx = this.sound.add('cracking', {volume: 0.5});
+
+        this.particles = this.add.particles('dust'); // Particles for crumbling dust
+        this.particles.x = 300;
+        this.particles.y = 300;
+        this.particles.createEmitter({
+            lifespan: 1000,
+            speed: { min: 10, max: 20 },
+            angle: 90,
+            gravityY: 50,
+            scale: { start: 1, end: 0.4 },
+            quantity: 1,
+            frequency: 500
+        });
+        this.particles.pause();
 
         // add player at map enterance
         this.player = new Player(this, 0, 450, 'player').setOrigin(0);
@@ -220,7 +235,7 @@ class Room02 extends Phaser.Scene{
         this.physics.add.overlap(this.player, this.enemies, ()=> { this.scene.start('gameOverScene'); }); // check if player is hit by enemy and game over if they do
         this.physics.add.overlap(this.threat, this.enemies, this.alerting); // check if player detection range collides with enemy and alert enemy
         this.physics.add.overlap(this.threat, this.guide, this.startTalking); // make guide start talking if player is close enough
-        this.physics.add.overlap(this.player, this.crumbling, this.sfx);
+        this.physics.add.overlap(this.player, this.crumbling, this.crumble);
         this.physics.add.overlap(this.player, this.trigger, this.spawnEnemies);
         this.physics.add.overlap(this.threat, this.shine, this.glowEyes);
 
@@ -308,11 +323,21 @@ class Room02 extends Phaser.Scene{
             } 
         }
     }
-    sfx(){
+    crumble(){
         // play cracking if it isnt already
         if (sfx.isPlaying == false){
             sfx.play();
         }
+        // Pause particle emitter and make particles invisible when off the bridge
+        if (currentScene.player.x < 275 || currentScene.player.x > 575 ) {
+            currentScene.particles.pause();
+            currentScene.particles.visible = false;
+        } else { // If player is on the bridge, resume particle emitter
+            currentScene.particles.x = currentScene.player.x + 25;
+            currentScene.particles.resume();
+            currentScene.particles.visible = true; 
+        }
+        
     }
     glowEyes(threat, shine){ //eyes glow from torch light
         if (hasTorch == true){
