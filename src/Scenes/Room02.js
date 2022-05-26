@@ -234,7 +234,7 @@ class Room02 extends Phaser.Scene{
         // add physics colliders between player, enemies, and walls
         this.physics.add.collider(this.player, this.walls);
         this.physics.add.collider(this.enemies, this.walls);
-        this.physics.add.collider(this.enemies, this.enemies);
+        // this.physics.add.collider(this.enemies, this.enemies); //makes them push each other through walls
 
         // add physics overlap to detect player and threat overlapping with enemies or interactables or guide
         this.physics.add.overlap(this.player, this.enemies, ()=> { this.scene.start('gameOverScene'); }); // check if player is hit by enemy and game over if they do
