@@ -49,6 +49,7 @@ class Menu extends Phaser.Scene{
 
     update() {
         // Start game when Space Bar is pushed
+        this.scene.start('roomScene04');
         if (Phaser.Input.Keyboard.JustDown(keySPACE)){
             if (eventCheck == false) {
                 this.prompt.text = "PRESS SPACE TO ADVANCE DIALOGUE WHEN YOU SEE ➤"
