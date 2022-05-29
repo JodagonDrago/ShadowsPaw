@@ -7,6 +7,7 @@ class Room04 extends Phaser.Scene {
 
     preload() {
         // load images/tile sprites specific to this room
+        this.load.image('rock', './assets/Rock.png')
     }
 
     create() {
@@ -62,9 +63,27 @@ class Room04 extends Phaser.Scene {
 
         // Add collision for walls and player
         this.physics.add.collider(this.player, this.walls);
+
+        this.dropRock(300, 300);
     }
 
     update() {
         this.player.update();
+    }
+
+    dropRock(X, Y) {
+        let shadow = this.add.arc(200, 200, 10, 0, 360, false, 0x454242, 0.5);
+        let rock = this.physics.add.sprite(x, -5, 'rock').setOrigin(0);
+        rock.body.allowGravity = true;
+
+        this.tweens.add({
+
+            targets: shadow,
+            scaleX: 4.5,
+            scaleY: 4.5,
+            yoyo: false,
+            ease: 'Sine.easeIn',
+            duration: 2000
+        });
     }
 }
