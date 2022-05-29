@@ -20,8 +20,6 @@ class Room05 extends Phaser.Scene{
         talking = false;
         talking2 = false;
 
-        hasTorch = true;
-
         // place map sprite
         this.map = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'map').setOrigin(0, 0);
      
@@ -184,7 +182,7 @@ class Room05 extends Phaser.Scene{
         textArray = [" ", "You should have listened to me back there.➤", "Now you have no choice...➤", "Your only chance is to run.", " "]
 
         //add rocks if they were sent down in previous room and update guide text accordingly. I put this before guide starts talking just in case
-        if (rockfall){
+        if (rockFall){
             // Add rocks
             this.rockX = [150, 200, 50, 50, 50, 100, 150, 50, 100, 150, 50, 300]; // X positions of rocks;
             this.rockY = [550, 550, 450, 400, 350, 400, 450, 300, 250, 350, 150, 200]; // Y positions of rocks;

@@ -143,7 +143,7 @@ class RoomFinal extends Phaser.Scene{
 
         // Add exit zones
         // Guide exit
-        this.physics.add.overlap(this.player, this.guideExit, ()=> { this.scene.start('menuScene'); }); // check if player collides with guide exit
+        this.physics.add.overlap(this.player, this.guideExit, ()=> { this.scene.start('roomSceneGuide01'); }); // check if player collides with guide exit
         // Trap exit
         this.exitZone = this.physics.add.sprite(925, 400, 'wall').setOrigin(0).setScale(1, 3);
         this.physics.add.overlap(this.player, this.exitZone, ()=> { this.scene.start('gameOverScene'); }); // check if player collides with trap exit
