@@ -10,7 +10,6 @@ class Room03 extends Phaser.Scene{
         this.load.image('spikes off', './assets/Spikes Off.png');
         this.load.image('spikes on', './assets/Spikes On.png');
         this.load.audio('spikes', './assets/Spikes.wav');
-        this.load.image('blood', './assets/Blood.png')
         
     }
 
@@ -195,18 +194,6 @@ class Room03 extends Phaser.Scene{
         // add spike sound and visuals from getting hurt
         sfx = this.sound.add('spikes', {volume: 0.5});
 
-        this.blood = this.add.particles('blood');
-        this.blood.createEmitter({
-            lifespan: 1000,
-            speed: { min: 10, max: 20 },
-            angle: 180,
-            gravityY: 50,
-            scale: { start: 1, end: 0.4 },
-            quantity: 1,
-            frequency: 500
-        });
-        this.blood.pause();
-
         // Add camera for damage effect
         this.shakeCamera = this.cameras.add(0, 0, 900, 900);
 
@@ -239,6 +226,7 @@ class Room03 extends Phaser.Scene{
 
         // add guide
         this.guide = this.physics.add.sprite(250, 650, 'enemy').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
+        this.guide.body.setSize(80, 80, true);
         this.guide.body.immovable = true;
         this.guide.body.allowGravity = false;
 
@@ -273,16 +261,14 @@ class Room03 extends Phaser.Scene{
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 10; // Total sentences spoken by guide in this scene
         textArray = [" ", "See? I'm your friend. Heh heh heh.➤", "And I want to help you escape.➤", "You just have to trust me. Afterall...➤", "I'm more familiar with this place than you.➤", "Take the spike trap ahead for instance,➤", "It's old, and doesnt work propperly anymore.➤", "You can cross it and it wont kill you.➤", "Far safer than going through the den up North.➤", "Trust me.", " "]
-        talking = false;
-        talking2 = false;
         // Display current sentence and advance to next sentence
         guideText = this.add.text(this.guide.x - 75, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0, 0.5);
         //guide audio
-        voice = this.sound.add('voice', {volume: 0.5});
+        voice = this.sound.add('voice', {volume: 0.3});
 
         // Add exit zone
         this.exitZone = this.physics.add.sprite(925, 750, 'wall').setOrigin(0);
-        this.physics.add.overlap(this.player, this.exitZone, ()=> { this.scene.start('roomSceneFinal'); }); // check if player collides with exit to next room
+        this.physics.add.overlap(this.player, this.exitZone, ()=> { this.scene.start('roomScene05'); }); // check if player collides with exit to next room
 
     }
 
@@ -311,8 +297,8 @@ class Room03 extends Phaser.Scene{
 
         // Update blood particles
         if (isBleeding) {
-            this.blood.x = this.player.x + 20; // Offset by 20 so it is aligned to player
-            this.blood.y = this.player.y + 50; // Offset by ten so it appears at feet of player
+            this.player.blood.x = this.player.x + 20; // Offset by 20 so it is aligned to player
+            this.player.blood.y = this.player.y + 50; // Offset by ten so it appears at feet of player
         }
 
 
@@ -354,7 +340,7 @@ class Room03 extends Phaser.Scene{
            currentScene.shakeCamera.flash(150, 255, 0, 0); 
         }
         isBleeding = true;
-        currentScene.blood.resume();
+        player.blood.resume();
         
     }
 

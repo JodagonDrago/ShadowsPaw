@@ -14,6 +14,20 @@ class Player extends Phaser.GameObjects.Sprite { //made a physics object instead
       // Reserve scene as local variable
       this.scene = scene;
 
+      // Set up particle system
+      this.blood = scene.add.particles('blood');
+      this.blood.createEmitter({
+        lifespan: 1000,
+        speed: { min: 10, max: 20 },
+        angle: 180,
+        gravityY: 50,
+        scale: { start: 1, end: 0.4 },
+        quantity: 1,
+        frequency: 500
+      });
+
+      this.blood.pause();
+
     }
 
     update(){

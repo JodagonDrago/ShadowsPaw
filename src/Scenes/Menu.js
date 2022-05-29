@@ -19,6 +19,7 @@ class Menu extends Phaser.Scene{
         this.load.image('wall', './assets/Wall.png');
         this.load.image('wall_half', './assets/Wall Seethrough.png');
         this.load.image('torch_light', './assets/Torchlight.png');
+        this.load.image('blood', './assets/Blood.png');
 
         // load spritesheet
         

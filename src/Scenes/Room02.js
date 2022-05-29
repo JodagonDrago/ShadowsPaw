@@ -256,12 +256,10 @@ class Room02 extends Phaser.Scene{
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 8; // Total sentences spoken by guide in this scene
         textArray = [" ", "Hello again.⇨", "Be careful ahead...➤", "The lower bridge has an ambush.➤", "you wouldn't want that.➤", "Take the top bridge instead.➤", "I promise it'll hold.➤", "Heh heh heh heh...", " "]
-        talking = false;
-        talking2 = false;
         // Display current sentence and advance to next sentence
         guideText = this.add.text(this.guide.x - 75, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0, 0.5);
         //guide audio
-        voice = this.sound.add('voice', {volume: 0.5});
+        voice = this.sound.add('voice', {volume: 0.3});
 
         // Add exit zone
         this.exitZone = this.physics.add.sprite(925, 450, 'wall').setOrigin(0);

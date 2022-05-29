@@ -13,6 +13,8 @@ class Room01 extends Phaser.Scene{
     create(){
         console.log('room 1 started');
         currentScene = this;
+        talking = false;
+        talking2 = false;
 
         // place map sprite
         this.map = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'map').setOrigin(0, 0);
@@ -160,12 +162,10 @@ class Room01 extends Phaser.Scene{
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 9; // Total sentences spoken by guide in this scene
         textArray = [" ", "Hello... you look scared...➤", "Do you need help getting out of here?➤", "I can help. Trust me.➤", "The exit's further ahead.➤", "but before you go...➤", "There's an old torch up ahead.➤", "If you pick it up, the light it shines...➤", "will make the monsters more hesitant to approach you.", " "]
-        talking = false;
-        talking2 = false;
         // Display current sentence and advance to next sentence
         guideText = this.add.text(this.guide.x + 25, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0.5);
         //guide audio
-        voice = this.sound.add('voice', {volume: 0.5});
+        voice = this.sound.add('voice', {volume: 0.3});
 
         // Add exit zone
         this.exitZone = this.physics.add.sprite(925, 350, 'wall').setOrigin(0);
