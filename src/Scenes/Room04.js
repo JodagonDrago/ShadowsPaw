@@ -145,6 +145,10 @@ class Room04 extends Phaser.Scene {
         this.button.setDepth(1); // Have button appear beneath player
         this.physics.add.overlap(this.player, this.button, this.pressButton);
         this.click = this.sound.add('cracking', {volume: 2.5});
+
+        // Add exit zone
+        this.exitZone = this.physics.add.sprite(925, 100, 'wall').setOrigin(0);
+        this.physics.add.overlap(this.player, this.exitZone, ()=> { this.scene.start('roomScene05'); }); // check if player collides with exit to next room
     }
 
     update() {
