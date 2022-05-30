@@ -114,6 +114,11 @@ class Room04 extends Phaser.Scene {
             this.threat.body.setCircle(200);
         }
 
+        //add blood particles if bleeding (not sure if this is needed yet)
+        if (isBleeding == true){
+            this.player.blood.resume();
+        }
+
         this.physics.add.overlap(this.threat, this.guide, this.startTalking); // make guide start talking if player is close enough
 
         // Add guide dialogue into an array by sentence
@@ -163,6 +168,12 @@ class Room04 extends Phaser.Scene {
 
         this.player.update();
         this.threat.update(this.player); //passing player into threat so it can follow the player
+
+        // Update blood particles
+        if (isBleeding) {
+            this.player.blood.x = this.player.x + 20; // Offset by 20 so it is aligned to player
+            this.player.blood.y = this.player.y + 50; // Offset by ten so it appears at feet of player
+        }
 
         if (this.rockFalling) {
            this.rock.update();
@@ -216,6 +227,8 @@ class Room04 extends Phaser.Scene {
     }
 
     pressButton() {
+        // Toggle global rock variable
+        rockFall = true;
         // Shake camera
         if (!currentScene.rockFalling){
             // Shake camera
