@@ -12,6 +12,7 @@ var enemySpeed = 90; //higher is faster
 var playerSpeed = 500; //lower is faster
 var hasTorch = false;
 let testing = false;
+let isBleeding;
 
 //Global dialogue variables
 var currText; // Current sentence to display
@@ -26,12 +27,12 @@ let tutorialText;
 let eventCheck = false; //checker for events
 let currentScene;
 let hasKey; //the key!
+let rockFall = false; //rocks
 
 //audio variables need to be global to execute in functions
 let voice;
 let pickupSound;
 let sfx;
-let isBleeding;
 
 // Set up config file
 let config = {
@@ -49,7 +50,7 @@ let config = {
         }
     },
 
-    scene: [Menu, Room01, Room02, Room03, Room04, RoomFinal, GameOver]
+    scene: [Menu, Room01, Room02, Room03, Room04, Room05, RoomFinal, GuideEnd01, GuideEnd02, Escape, GameOver]
 }
 
 // Instantiate text config for dialogue

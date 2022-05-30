@@ -19,6 +19,9 @@ class Menu extends Phaser.Scene{
         this.load.image('wall', './assets/Wall.png');
         this.load.image('wall_half', './assets/Wall Seethrough.png');
         this.load.image('torch_light', './assets/Torchlight.png');
+        this.load.image('blood', './assets/Blood.png');
+        this.load.image('title', './assets/Title.png');
+        this.load.image('rocks', './assets/Rocks.png');
 
         // load spritesheet
         
@@ -26,8 +29,9 @@ class Menu extends Phaser.Scene{
 
     create(){
         // add menu image
-        this.title = this.add.text(game.config.width/2, game.config.height/2, 'TRUSTING SHADOWS').setOrigin(0.5);
-        this.prompt = this.add.text(game.config.width/2, game.config.height/2 + 100, 'Press SPACE to start').setOrigin(0.5);
+        this.map = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'title').setOrigin(0, 0);
+        this.title = this.add.text(game.config.width/2, game.config.height/1.5, ' ').setOrigin(0.5);
+        this.prompt = this.add.text(game.config.width/2, game.config.height/1.5 + 100, 'PRESS [SPACE] TO START').setOrigin(0.5);
 
         //ensure player doesnt start with variables from previous runs
         hasKey = false;
@@ -52,7 +56,7 @@ class Menu extends Phaser.Scene{
         this.scene.start('roomScene04');
         if (Phaser.Input.Keyboard.JustDown(keySPACE)){
             if (eventCheck == false) {
-                this.prompt.text = "PRESS SPACE TO ADVANCE DIALOGUE WHEN YOU SEE ➤"
+                this.prompt.text = "PRESS [SPACE] TO ADVANCE DIALOGUE WHEN YOU SEE ➤"
                 this.title.text = "USE ARROW KEYS TO MOVE"
                 eventCheck = true;
                 console.log(eventCheck);

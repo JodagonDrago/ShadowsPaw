@@ -13,6 +13,8 @@ class Room01 extends Phaser.Scene{
     create(){
         console.log('room 1 started');
         currentScene = this;
+        talking = false;
+        talking2 = false;
 
         // place map sprite
         this.map = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'map').setOrigin(0, 0);
@@ -53,15 +55,19 @@ class Room01 extends Phaser.Scene{
             }
         }
         //Next add interior walls
-        let aTile = this.physics.add.sprite(50, 800, 'wall').setOrigin(0); //the 1 block in bottom right
+        let aTile = this.physics.add.sprite(50, 800, 'rocks').setOrigin(0); //the 1 block in bottom right
         aTile.body.immovable = true;
         aTile.body.allowGravity = false;
         this.walls.add(aTile);
         //Next add interior walls
-        let bTile = this.physics.add.sprite(50, 600, 'wall').setOrigin(0); //the 1 block above that one
+        let bTile = this.physics.add.sprite(50, 600, 'rocks').setOrigin(0); //the 1 block above that one
         bTile.body.immovable = true;
         bTile.body.allowGravity = false;
         this.walls.add(bTile);
+        let cTile = this.physics.add.sprite(100, 700, 'rocks').setOrigin(0); //the 1 block above the player
+        cTile.body.immovable = true;
+        cTile.body.allowGravity = false;
+        this.walls.add(cTile);
         for(let i = 400; i < 850; i += tileSize) { //wall to player right
             let wallTile = this.physics.add.sprite(150, i, 'wall').setOrigin(0);
             wallTile.body.immovable = true;
@@ -158,14 +164,12 @@ class Room01 extends Phaser.Scene{
 
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
-        totalText = 9; // Total sentences spoken by guide in this scene
-        textArray = [" ", "Hello... you look scared...➤", "Do you need help getting out of here?➤", "I can help. Trust me.➤", "The exit's further ahead.➤", "but before you go...➤", "There's an old torch up ahead.➤", "If you pick it up, the light it shines...➤", "will make the monsters more hesitant to approach you.", " "]
-        talking = false;
-        talking2 = false;
+        totalText = 10; // Total sentences spoken by guide in this scene
+        textArray = [" ", "Hello... You look scared...➤", "That was quite a fall you took.", "Do you need help getting out of here?➤", "I can help. Trust me.➤", "The exit's further ahead.➤", "but before you go...➤", "There's an old torch up ahead.➤", "If you pick it up, the light it shines...➤", "will make the monsters more hesitant to approach you.", " "]
         // Display current sentence and advance to next sentence
         guideText = this.add.text(this.guide.x + 25, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0.5);
         //guide audio
-        voice = this.sound.add('voice', {volume: 0.5});
+        voice = this.sound.add('voice', {volume: 0.3});
 
         // Add exit zone
         this.exitZone = this.physics.add.sprite(925, 350, 'wall').setOrigin(0);
