@@ -3,6 +3,7 @@ class Room04 extends Phaser.Scene {
         super("roomScene04"); // Follow naming convention for future rooms
         this.exitsPos = [100]; // Y positions of exits across right wall
         this.entrancePos = [750]; // Y positions of exits across right wall
+        this.rockFalling = false;
     }
 
     preload() {
@@ -11,6 +12,7 @@ class Room04 extends Phaser.Scene {
     }
 
     create() {
+        currentScene = this;
         // place map sprite
         this.map = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'map').setOrigin(0, 0);
     
@@ -64,26 +66,25 @@ class Room04 extends Phaser.Scene {
         // Add collision for walls and player
         this.physics.add.collider(this.player, this.walls);
 
-        this.dropRock(300, 300);
+        //Add collision group for falling rocks
+        this.rocks = this.add.group();
+        this.physics.add.overlap(this.player, this.rocks, ()=> { this.scene.start('gameOverScene'); });
+
+        // Start dropping rocks
     }
 
     update() {
         this.player.update();
+        if (this.rockFalling) {
+           this.rock.update(); 
+        }
     }
 
     dropRock(X, Y) {
-        let shadow = this.add.arc(200, 200, 10, 0, 360, false, 0x454242, 0.5);
-        let rock = this.physics.add.sprite(x, -5, 'rock').setOrigin(0);
-        rock.body.allowGravity = true;
-
-        this.tweens.add({
-
-            targets: shadow,
-            scaleX: 4.5,
-            scaleY: 4.5,
-            yoyo: false,
-            ease: 'Sine.easeIn',
-            duration: 2000
-        });
+        this.rockFalling = true;
+        // Add rock itself and have it fall
+        this.rock = new Rock(currentScene, X, -10, 'rock', Y, this.rocks);
+        //this.rocks.add(this.rock);
+        this.rock.drop(); 
     }
 }
