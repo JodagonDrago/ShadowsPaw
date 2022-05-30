@@ -52,10 +52,74 @@ class Room04 extends Phaser.Scene {
                 this.walls.add(wallTile);
             }
         }
+        // Add blocked off section for guide
+        for(let i = 50; i < 200; i += tileSize) { // Top segment
+            let wallTile = this.physics.add.sprite(i, 600, 'wall').setOrigin(0);
+            wallTile.body.immovable = true;
+            wallTile.body.allowGravity = false;
+            this.walls.add(wallTile);
+        }
+        for(let i = 50; i < 200; i += tileSize) { // Bottom segment
+            let wallTile = this.physics.add.sprite(i, 700, 'wall').setOrigin(0);
+            wallTile.body.immovable = true;
+            wallTile.body.allowGravity = false;
+            this.walls.add(wallTile);
+        }
+        for(let i = 150; i < 200; i += tileSize) { // Connect segments
+            let wallTile = this.physics.add.sprite(i, 650, 'wall').setOrigin(0);
+            wallTile.body.immovable = true;
+            wallTile.body.allowGravity = false;
+            this.walls.add(wallTile);
+        }
+        // Fill gap above guide enclosure
+        for(let i = 50; i < 600; i += tileSize) {
+            let wallTile = this.physics.add.sprite(50, i, 'wall').setOrigin(0);
+            wallTile.body.immovable = true;
+            wallTile.body.allowGravity = false;
+            this.walls.add(wallTile);
+        }
+        for(let i = 50; i < 600; i += tileSize) {
+            let wallTile = this.physics.add.sprite(100, i, 'wall').setOrigin(0);
+            wallTile.body.immovable = true;
+            wallTile.body.allowGravity = false;
+            this.walls.add(wallTile);
+        }
+        for(let i = 50; i < 600; i += tileSize) {
+            let wallTile = this.physics.add.sprite(150, i, 'wall').setOrigin(0);
+            wallTile.body.immovable = true;
+            wallTile.body.allowGravity = false;
+            this.walls.add(wallTile);
+        }
 
-        // add player at map enterance
+        // add guide
+        this.guide = this.physics.add.sprite(100, 650, 'enemy').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
+        this.guide.body.immovable = true;
+        this.guide.body.allowGravity = false;
+
+        // add player at map entrance
         this.player = new Player(this, 0, 750, 'player').setOrigin(0);
         this.physics.add.existing(this.player);
+
+        // add threat box for range where enemies become alerted. Check if it is a torch or not
+        if (hasTorch == false){
+            this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'threat').setOrigin(0.5).setScale(0.9);
+        } else {
+            this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'torch_light').setOrigin(0.5);
+            this.threat.body.setCircle(200);
+        }
+
+        this.physics.add.overlap(this.threat, this.guide, this.startTalking); // make guide start talking if player is close enough
+
+        // Add guide dialogue into an array by sentence
+        currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
+        totalText = 5; // Total sentences spoken by guide in this scene
+        textArray = [" ", "I bet you're confused...➤", "Try stepping on that switch.➤", "It will keep you safe from an enemy ahead.➤", "Doesn't that sound helpful?", " "]
+        talking = false;
+        talking2 = false;
+        // Display current sentence and advance to next sentence
+        guideText = this.add.text(this.guide.x - 75, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0, 0.5);
+        //guide audio
+        voice = this.sound.add('voice', {volume: 0.5});
 
         // Set up cursor-key input for directional movement
         cursors = this.input.keyboard.createCursorKeys();
@@ -71,10 +135,22 @@ class Room04 extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.rocks, ()=> { this.scene.start('gameOverScene'); });
 
         // Start dropping rocks
+
     }
 
     update() {
+        // Check keyboard for space key input (This can be used for interacting with objects, or progressing guide text)
+        if (Phaser.Input.Keyboard.JustDown(keySPACE) && currText <= totalText && talking == true) {
+            // Advance to next sentence
+            guideText.text = textArray[currText++];
+            if (currText <= totalText){ //dont make sound if dialogue is over
+                voice.play();
+            }
+        }
+
         this.player.update();
+        this.threat.update(this.player); //passing player into threat so it can follow the player
+
         if (this.rockFalling) {
            this.rock.update(); 
         }
@@ -86,5 +162,21 @@ class Room04 extends Phaser.Scene {
         this.rock = new Rock(currentScene, X, -10, 'rock', Y, this.rocks);
         //this.rocks.add(this.rock);
         this.rock.drop(); 
+    }
+
+    startTalking() {
+        if (talking == false){ //so it doesnt repeat
+            guideText.text = textArray[currText++]; //say the first line after " "
+            talking = true;
+            voice.play();
+        }
+        if (this.rockFalling == true && talking2 == false){ //after rocks begin to fall
+            currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
+            totalText = 2;
+            textArray = ["Hm. It appears that may have cause some...➤", "Instability.➤", " "]
+            guideText.text = textArray[currText++]; //say the first line after " "
+            talking2 = true;
+            voice.play();
+        }
     }
 }
