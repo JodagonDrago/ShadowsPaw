@@ -8,11 +8,16 @@ class Room04 extends Phaser.Scene {
 
     preload() {
         // load images/tile sprites specific to this room
-        this.load.image('rock', './assets/Rock.png')
+        this.load.audio('cracking', './assets/Cracking.wav');
+        this.load.image('rock', './assets/Rock.png');
+        this.load.image('button', './assets/Button.png');
     }
 
     create() {
         currentScene = this;
+        // Add camera for damage effect
+        this.shakeCamera = this.cameras.add(0, 0, 900, 900);
+
         // place map sprite
         this.map = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'map').setOrigin(0, 0);
     
@@ -99,6 +104,7 @@ class Room04 extends Phaser.Scene {
         // add player at map entrance
         this.player = new Player(this, 0, 750, 'player').setOrigin(0);
         this.physics.add.existing(this.player);
+        this.player.setDepth(2); // Have player appear above button. This is unique to this situation
 
         // add threat box for range where enemies become alerted. Check if it is a torch or not
         if (hasTorch == false){
@@ -113,7 +119,7 @@ class Room04 extends Phaser.Scene {
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 5; // Total sentences spoken by guide in this scene
-        textArray = [" ", "I bet you're confused...➤", "Try stepping on that switch.➤", "It will keep you safe from an enemy ahead.➤", "Doesn't that sound helpful?", " "]
+        textArray = [" ", "I bet you're confused...➤", "Try stepping on that switch.➤", "It will keep you safe from an enemy in the room ahead.➤", "Doesn't that sound helpful?", " "]
         talking = false;
         talking2 = false;
         // Display current sentence and advance to next sentence
@@ -134,8 +140,11 @@ class Room04 extends Phaser.Scene {
         this.rocks = this.add.group();
         this.physics.add.overlap(this.player, this.rocks, ()=> { this.scene.start('gameOverScene'); });
 
-        // Start dropping rocks
-
+        // Add button that will trigger rocks
+        this.button = this.physics.add.sprite(100, 800, 'button').setOrigin(0);
+        this.button.setDepth(1); // Have button appear beneath player
+        this.physics.add.overlap(this.player, this.button, this.pressButton);
+        this.click = this.sound.add('cracking', {volume: 2.5});
     }
 
     update() {
@@ -157,7 +166,7 @@ class Room04 extends Phaser.Scene {
     }
 
     dropRock(X, Y) {
-        this.rockFalling = true;
+        //this.rockFalling = true;
         // Add rock itself and have it fall
         this.rock = new Rock(currentScene, X, -10, 'rock', Y, this.rocks);
         //this.rocks.add(this.rock);
@@ -170,13 +179,28 @@ class Room04 extends Phaser.Scene {
             talking = true;
             voice.play();
         }
-        if (this.rockFalling == true && talking2 == false){ //after rocks begin to fall
+        if (currentScene.rockFalling == true && talking2 == false){ //after rocks begin to fall
             currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
             totalText = 2;
-            textArray = ["Hm. It appears that may have cause some...➤", "Instability.➤", " "]
+            textArray = ["Hm. It appears that may have caused some...➤", "Instability.➤", " "]
             guideText.text = textArray[currText++]; //say the first line after " "
             talking2 = true;
             voice.play();
+        }
+    }
+
+    pressButton() {
+        // Shake camera
+        if (!currentScene.rockFalling){
+            // Shake camera
+            currentScene.shakeCamera.shake(700, 0.025);
+
+            // Toggle event check
+            currentScene.rockFalling = true;
+            currentScene.dropRock(200, 800);
+
+            // Play sound effect
+            currentScene.click.play();
         }
     }
 }
