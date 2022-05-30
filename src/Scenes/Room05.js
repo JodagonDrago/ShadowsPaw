@@ -7,7 +7,6 @@ class Room05 extends Phaser.Scene{
 
     preload() {
         // load images/tile sprites specific to this room
-        this.load.image('rocks', './assets/Rocks.png');
         this.load.image('key', './assets/Key.png');
         
     }

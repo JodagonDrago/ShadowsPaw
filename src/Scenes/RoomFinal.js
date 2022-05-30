@@ -133,7 +133,7 @@ class RoomFinal extends Phaser.Scene{
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 9; // Total sentences spoken by guide in this scene
-        textArray = [" ", "You're almost out.➤", "But there's just one last danger...➤", "Another ambush waiting for you.➤", "Right through that big exit.➤", "But don't worry...➤", "I made an opening in the wall for you.➤", "You can go through it isntead!➤", "Go on, you're so close!", " "]
+        textArray = [" ", "You're almost out.➤", "But there's just one last danger...➤", "Another ambush waiting for you.➤", "Right through that big exit.➤", "But don't worry...➤", "I made an opening in the wall for you.➤", "You can escape through it isntead!➤", "Go on, you're so close!", " "]
         talking = false;
         talking2 = false;
         // Display current sentence and advance to next sentence
@@ -150,7 +150,7 @@ class RoomFinal extends Phaser.Scene{
         // Secret exit
         this.unlockedExit = this.physics.add.sprite(500, 775, 'threat').setOrigin(0).setScale(0.2); //make secret exit past lock
         this.physics.add.collider(this.player, this.secretExit, this.keyCheck); // check if player collides with secret exit lock and open it if they have key
-        this.physics.add.overlap(this.player, this.unlockedExit, ()=> { this.scene.start('menuScene'); }); // check if player collides with unlocked exit
+        this.physics.add.overlap(this.player, this.unlockedExit, ()=> { this.scene.start('escapeScene'); }); // check if player collides with unlocked exit
 
         // testing = true;
     }
