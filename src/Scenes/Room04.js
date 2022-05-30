@@ -161,16 +161,38 @@ class Room04 extends Phaser.Scene {
         this.threat.update(this.player); //passing player into threat so it can follow the player
 
         if (this.rockFalling) {
-           this.rock.update(); 
+           this.rock.update();
+           this.rock2.update(); 
+           this.rock3.update();
+           this.rock4.update();
         }
     }
 
-    dropRock(X, Y) {
-        //this.rockFalling = true;
-        // Add rock itself and have it fall
+    dropRock() {
+        // Set initial position of first rock
+        let X = Phaser.Math.Between(200, 800);
+        let Y = currentScene.player.y
+
+        // Add rocks in randomized locations
         this.rock = new Rock(currentScene, X, -10, 'rock', Y, this.rocks);
-        //this.rocks.add(this.rock);
-        this.rock.drop(); 
+
+        X = Phaser.Math.Between(200, 800);
+        this.rock2 = new Rock(currentScene, X, -10, 'rock', Y - 50, this.rocks);
+
+        X = Phaser.Math.Between(200, 800);
+        this.rock3 = new Rock(currentScene, X, -10, 'rock', Y - 100, this.rocks);
+
+        X = Phaser.Math.Between(200, 800);
+        this.rock4 = new Rock(currentScene, X, -10, 'rock', Y + 50, this.rocks);
+
+        // Drop them rocks babyyy!
+        this.rock.drop();
+        this.rock2.drop();
+        this.rock3.drop();
+        this.rock4.drop();
+
+        // Drop some more
+        this.time.delayedCall(2200, this.dropRock, [], this);
     }
 
     startTalking() {
@@ -197,7 +219,7 @@ class Room04 extends Phaser.Scene {
 
             // Toggle event check
             currentScene.rockFalling = true;
-            currentScene.dropRock(200, 800);
+            currentScene.dropRock();
 
             // Play sound effect
             currentScene.click.play();
