@@ -9,6 +9,7 @@ class Menu extends Phaser.Scene{
         this.load.audio('voice', './assets/Guide Voice.wav');
         this.load.audio('pickup', './assets/Pickup.wav');
         this.load.audio('alert', './assets/Alert.wav');
+        this.load.audio('smash', './assets/Rock Smash.wav');
 
         // load sprites that will appear in many rooms
         this.load.image('map', './assets/Room.png');
@@ -22,6 +23,7 @@ class Menu extends Phaser.Scene{
         this.load.image('blood', './assets/Blood.png');
         this.load.image('title', './assets/Title.png');
         this.load.image('rocks', './assets/Rocks.png');
+        this.load.image('guideHole', './assets/Guide Hole.png')
 
         // load spritesheet
         
@@ -37,6 +39,8 @@ class Menu extends Phaser.Scene{
         hasKey = false;
         playerSpeed = 500;
         hasTorch = false;
+        rockFall = false;
+        isBleeding = false;
 
         eventCheck = false; //ensure player cant hit space repeatedly
 

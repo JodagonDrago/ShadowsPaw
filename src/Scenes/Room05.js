@@ -104,6 +104,23 @@ class Room05 extends Phaser.Scene{
                 this.walls.add(wallTile);
             }
         }
+
+        //add rocks if they were sent down in previous room and update guide text accordingly. I put this before guide starts talking just in case
+        if (rockFall){
+            // Add rocks
+            this.rockX = [150, 200, 50, 50, 50, 100, 150, 50, 100, 150, 50, 300]; // X positions of rocks;
+            this.rockY = [550, 550, 450, 400, 350, 400, 450, 300, 250, 350, 150, 200]; // Y positions of rocks;
+
+            for (let i = 0 ; i < this.rockX.length; i++) {
+                let currRock = this.physics.add.sprite(this.rockX[i], this.rockY[i], 'rocks').setOrigin(0);
+                currRock.body.immovable = true;
+                currRock.body.allowGravity = false;
+                this.walls.add(currRock);
+            }
+
+            totalText = 4; // Total sentences spoken by guide in this scene
+            textArray = [" ", "Great job back there.➤", "Not much further to go now.➤", "Told you that you could trust me.", " "]
+        }
         //
         //
         // all walls done
@@ -131,6 +148,7 @@ class Room05 extends Phaser.Scene{
         this.guide = this.physics.add.sprite(200, 750, 'enemy').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
         this.guide.body.immovable = true;
         this.guide.body.allowGravity = false;
+        this.guideExit = this.add.sprite(100, 800, 'guideHole').setOrigin(0); //add guide's exit
 
         // add threat box for range where enemies become alerted. Check if it is a torch or not
         if (hasTorch == false){
@@ -179,23 +197,6 @@ class Room05 extends Phaser.Scene{
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 4; // Total sentences spoken by guide in this scene
         textArray = [" ", "You should have listened to me back there.➤", "Now you have no choice...➤", "Your only chance is to run.", " "]
-
-        //add rocks if they were sent down in previous room and update guide text accordingly. I put this before guide starts talking just in case
-        if (rockFall){
-            // Add rocks
-            this.rockX = [150, 200, 50, 50, 50, 100, 150, 50, 100, 150, 50, 300]; // X positions of rocks;
-            this.rockY = [550, 550, 450, 400, 350, 400, 450, 300, 250, 350, 150, 200]; // Y positions of rocks;
-
-            for (let i = 0 ; i < this.rockX.length; i++) {
-                let currRock = this.physics.add.sprite(this.rockX[i], this.rockY[i], 'rocks').setOrigin(0);
-                currRock.body.immovable = true;
-                currRock.body.allowGravity = false;
-                this.walls.add(currRock);
-            }
-
-            totalText = 4; // Total sentences spoken by guide in this scene
-            textArray = [" ", "Great job back there.➤", "Not much further to go now.➤", "Told you that you could trust me.", " "]
-        }
 
         // Display current sentence and advance to next sentence
         guideText = this.add.text(this.guide.x - 75, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0, 0.5);

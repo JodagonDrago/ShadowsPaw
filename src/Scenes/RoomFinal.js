@@ -6,12 +6,14 @@ class RoomFinal extends Phaser.Scene{
 
     preload() {
         this.load.image('secretWall', './assets/CrackedWall.png')
-        this.load.image('holeWall', './assets/HoleWall.png')
         this.load.image('eyes', './assets/Eye Glow.png')
         this.load.image('redEyes', './assets/Red Eye Glow.png')
+        this.load.image('holeWall', './assets/HoleWall.png')
+        this.load.image('light', './assets/Light.png')
     }
 
     create() {
+        currentScene = this;
 
         // Place map sprite
         console.log('Final room started');
@@ -104,7 +106,7 @@ class RoomFinal extends Phaser.Scene{
         }
 
         // Add guide in void
-        this.guide = this.physics.add.sprite(350, 350, 'redEyes').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
+        this.guide = this.physics.add.sprite(350, 350, 'redEyes').setOrigin(0); 
         this.guide.body.immovable = true;
         this.guide.body.allowGravity = false;
 
@@ -119,6 +121,13 @@ class RoomFinal extends Phaser.Scene{
         } else {
             this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'torch_light').setOrigin(0.5);
         }
+
+        //add exit light
+        this.light = this.add.sprite(800, 250, 'light').setOrigin(0).setScale(1, 3);
+
+        //add secret exit light offscreen
+        this.light2 = this.add.sprite(-100, -100, 'light').setOrigin(0);
+        this.light2.angle = 90;
 
         // add physics colliders between player, enemies, and walls
         this.physics.add.collider(this.player, this.walls);
@@ -184,6 +193,9 @@ class RoomFinal extends Phaser.Scene{
         if (hasKey == true){
             secretExit.destroy();
             pickupSound.play();
+            //add exit light
+            currentScene.light2.x = 600;
+            currentScene.light2.y = 700;
         }
     }
 }

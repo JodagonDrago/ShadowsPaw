@@ -20,7 +20,6 @@ class Room03 extends Phaser.Scene{
         eventCheck = false;
         talking = false;
         talking2 = false;
-        isBleeding = false;
 
         // place map sprite
         this.map = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'map').setOrigin(0, 0);
@@ -230,6 +229,7 @@ class Room03 extends Phaser.Scene{
         this.guide.body.setSize(80, 80, true);
         this.guide.body.immovable = true;
         this.guide.body.allowGravity = false;
+        this.guideExit = this.add.sprite(500, 650, 'guideHole').setOrigin(0); //add guide's exit
 
         // add threat box for range where enemies become alerted. Check if it is a torch or not
         if (hasTorch == false){
@@ -320,7 +320,7 @@ class Room03 extends Phaser.Scene{
         if (eventCheck == true && talking2 == false){ //after enemies spawn
             currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
             totalText = 4;
-            textArray = ["See? I told you it wouldn't kill you.➤", "A little pain never killed anybody.➤", "And you can heal later.➤", "Heh heh heh heh...", " "]
+            textArray = ["I told you it wouldn't kill you.➤", "A little pain never killed anybody.➤", "And you can heal later.➤", "Heh heh heh heh...", " "]
             guideText.text = textArray[currText++]; //say the first line after " "
             talking2 = true;
             voice.play();

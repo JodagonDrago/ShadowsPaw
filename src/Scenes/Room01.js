@@ -104,6 +104,8 @@ class Room01 extends Phaser.Scene{
             wallTile.body.allowGravity = false;
             this.walls.add(wallTile);
         }
+
+        this.guideExit = this.add.sprite(100, 150, 'guideHole').setOrigin(0); //add guide's exit
         //
         //
         // all walls done
@@ -165,7 +167,7 @@ class Room01 extends Phaser.Scene{
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 10; // Total sentences spoken by guide in this scene
-        textArray = [" ", "Hello... You look scared...➤", "That was quite a fall you took.", "Do you need help getting out of here?➤", "I can help. Trust me.➤", "The exit's further ahead.➤", "but before you go...➤", "There's an old torch up ahead.➤", "If you pick it up, the light it shines...➤", "will make the monsters more hesitant to approach you.", " "]
+        textArray = [" ", "Hello... You look scared...➤", "That was quite a fall you took.➤", "Do you need help getting out of here?➤", "I can help. Trust me.➤", "The exit's further ahead.➤", "but before you go...➤", "There's an old torch up ahead.➤", "If you pick it up, the light it shines...➤", "will make the monsters more hesitant to approach you.", " "]
         // Display current sentence and advance to next sentence
         guideText = this.add.text(this.guide.x + 25, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0.5);
         //guide audio

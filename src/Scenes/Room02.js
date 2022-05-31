@@ -222,6 +222,7 @@ class Room02 extends Phaser.Scene{
         this.guide = this.physics.add.sprite(150, 450, 'enemy').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
         this.guide.body.immovable = true;
         this.guide.body.allowGravity = false;
+        this.guideExit = this.add.sprite(200, 400, 'guideHole').setOrigin(0); //add guide's exit
 
         // add threat box for range where enemies become alerted. Check if it is a torch or not
         if (hasTorch == false){
@@ -255,7 +256,7 @@ class Room02 extends Phaser.Scene{
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 8; // Total sentences spoken by guide in this scene
-        textArray = [" ", "Hello again.⇨", "Be careful ahead...➤", "The lower bridge has an ambush.➤", "you wouldn't want that.➤", "Take the top bridge instead.➤", "I promise it'll hold.➤", "Heh heh heh heh...", " "]
+        textArray = [" ", "Hello again.➤", "Be careful ahead...➤", "The lower bridge has an ambush.➤", "you wouldn't want that.➤", "Take the top bridge instead.➤", "I promise it'll hold.➤", "Heh heh heh heh...", " "]
         // Display current sentence and advance to next sentence
         guideText = this.add.text(this.guide.x - 75, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0, 0.5);
         //guide audio

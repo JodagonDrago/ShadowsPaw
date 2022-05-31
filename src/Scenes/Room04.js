@@ -14,7 +14,6 @@ class Room04 extends Phaser.Scene {
 
     create() {
         this.rockFalling = false;
-        rockFall = false;
         currentScene = this;
         // Add camera for damage effect
         this.shakeCamera = this.cameras.add(0, 0, 900, 900);
@@ -101,6 +100,7 @@ class Room04 extends Phaser.Scene {
         this.guide = this.physics.add.sprite(100, 650, 'enemy').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
         this.guide.body.immovable = true;
         this.guide.body.allowGravity = false;
+        this.guideExit = this.add.sprite(50, 650, 'guideHole').setOrigin(0); //add guide's exit
 
         // add player at map entrance
         this.player = new Player(this, 0, 750, 'player').setOrigin(0);
@@ -124,14 +124,14 @@ class Room04 extends Phaser.Scene {
 
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
-        totalText = 5; // Total sentences spoken by guide in this scene
-        textArray = [" ", "I bet you're confused...➤", "Try stepping on that switch.➤", "It will keep you safe from an enemy in the room ahead.➤", "Doesn't that sound helpful?", " "]
+        totalText = 7; // Total sentences spoken by guide in this scene
+        textArray = [" ", "There's another old trap here...➤", "That pressure plate down there.➤", "It will make part of the ceiling collapse.➤", "But you actually want that...", "Because it'll collapse in the next room as well...", "Where more of them are waiting for you.", " "]
         talking = false;
         talking2 = false;
         // Display current sentence and advance to next sentence
         guideText = this.add.text(this.guide.x - 75, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0, 0.5);
         //guide audio
-        voice = this.sound.add('voice', {volume: 0.5});
+        voice = this.sound.add('voice', {volume: 0.3});
 
         // Set up cursor-key input for directional movement
         cursors = this.input.keyboard.createCursorKeys();
@@ -144,7 +144,7 @@ class Room04 extends Phaser.Scene {
 
         //Add collision group for falling rocks
         this.rocks = this.add.group();
-        this.physics.add.overlap(this.player, this.rocks, ()=> { this.scene.start('gameOverScene'); });
+        this.physics.add.overlap(this.player, this.rocks, ()=> { this.scene.start('gameOverScene2'); });
 
         // Add button that will trigger rocks
         this.button = this.physics.add.sprite(100, 800, 'button').setOrigin(0);
@@ -219,8 +219,8 @@ class Room04 extends Phaser.Scene {
         }
         if (currentScene.rockFalling == true && talking2 == false){ //after rocks begin to fall
             currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
-            totalText = 2;
-            textArray = ["Hm. It appears that may have caused some...➤", "Instability.➤", " "]
+            totalText = 4;
+            textArray = ["Well done.➤", "Now all you need to do is get across.➤", "But I'm sure you can make it.➤", "Heh heh heh heh...", " "]
             guideText.text = textArray[currText++]; //say the first line after " "
             talking2 = true;
             voice.play();
