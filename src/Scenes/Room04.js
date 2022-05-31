@@ -14,6 +14,7 @@ class Room04 extends Phaser.Scene {
 
     create() {
         this.rockFalling = false;
+        rockFall = false;
         currentScene = this;
         // Add camera for damage effect
         this.shakeCamera = this.cameras.add(0, 0, 900, 900);
