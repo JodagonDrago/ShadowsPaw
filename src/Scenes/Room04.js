@@ -3,7 +3,6 @@ class Room04 extends Phaser.Scene {
         super("roomScene04"); // Follow naming convention for future rooms
         this.exitsPos = [100]; // Y positions of exits across right wall
         this.entrancePos = [750]; // Y positions of exits across right wall
-        this.rockFalling = false;
     }
 
     preload() {
@@ -14,6 +13,7 @@ class Room04 extends Phaser.Scene {
     }
 
     create() {
+        this.rockFalling = false;
         currentScene = this;
         // Add camera for damage effect
         this.shakeCamera = this.cameras.add(0, 0, 900, 900);

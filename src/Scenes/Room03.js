@@ -20,6 +20,7 @@ class Room03 extends Phaser.Scene{
         eventCheck = false;
         talking = false;
         talking2 = false;
+        isBleeding = false;
 
         // place map sprite
         this.map = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'map').setOrigin(0, 0);
