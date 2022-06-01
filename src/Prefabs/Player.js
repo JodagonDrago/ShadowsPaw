@@ -11,6 +11,9 @@ class Player extends Phaser.GameObjects.Sprite { //made a physics object instead
       // Boolean to prevent movement if player is already moving
       this.isMoving = false;
 
+      //bool for if sprite is flipped
+      this.flipped = false;
+
       // Reserve scene as local variable
       this.scene = scene;
 
@@ -39,6 +42,11 @@ class Player extends Phaser.GameObjects.Sprite { //made a physics object instead
             this.isMoving = true;
             this.scene.physics.moveTo(this, this.x - 50, this.y, 60, playerSpeed);
 
+            if (this.flipped == true){
+                this.flipX = false;
+                this.flipped = false;
+            }
+
             // Delay movement until player has moved one unit (50px)
             this.delayMove();
 
@@ -46,6 +54,11 @@ class Player extends Phaser.GameObjects.Sprite { //made a physics object instead
             //console.log('Right pushed');
             this.isMoving = true;
             this.scene.physics.moveTo(this, this.x + 50, this.y, 60, playerSpeed);
+
+            if (this.flipped == false){
+                this.flipX = true;
+                this.flipped = true;
+            }
 
             // Delay movement until player has moved one unit (50px)
             this.delayMove();

@@ -13,7 +13,10 @@ class Enemy extends Phaser.GameObjects.Sprite{ //made a physics object instead o
         this.alert = false;
         this.growled = false;
 
-        // Boolean to prevent movement if player is already moving
+        //bool for if sprite is flipped
+        this.flipped = false;
+
+        // Boolean to prevent movement if enemy is already moving
         this.pause = false;
 
         // Reserve scene as local variable
@@ -49,6 +52,15 @@ class Enemy extends Phaser.GameObjects.Sprite{ //made a physics object instead o
                     this.pause = false;
                 }, null, this);
 
+            }
+            
+            //flip sprite based on velocity
+            if (this.flipped == true && this.body.velocity.x < 0){
+                this.flipX = false;
+                this.flipped = false;
+            } else if (this.flipped == false && this.body.velocity.x > 0){
+                this.flipX = true;
+                this.flipped = true;
             }
         }
     }
