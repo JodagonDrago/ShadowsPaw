@@ -170,12 +170,6 @@ class Room04 extends Phaser.Scene {
         this.player.update();
         this.threat.update(this.player); //passing player into threat so it can follow the player
 
-        // Update blood particles
-        if (isBleeding) {
-            this.player.blood.x = this.player.x + 20; // Offset by 20 so it is aligned to player
-            this.player.blood.y = this.player.y + 50; // Offset by ten so it appears at feet of player
-        }
-
         if (this.rockFalling) {
            this.rock.update();
            this.rock2.update(); 

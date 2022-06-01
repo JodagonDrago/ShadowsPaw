@@ -120,6 +120,11 @@ class RoomFinal extends Phaser.Scene{
             this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'torch_light').setOrigin(0.5);
         }
 
+        //add blood particles if bleeding (not sure if this is needed yet)
+        if (isBleeding == true){
+            this.player.blood.resume();
+        }
+
         // add physics colliders between player, enemies, and walls
         this.physics.add.collider(this.player, this.walls);
         this.physics.add.overlap(this.threat, this.guide, this.startTalking); // make guide start talking if player is close enough
