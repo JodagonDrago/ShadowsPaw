@@ -105,7 +105,6 @@ class Room01 extends Phaser.Scene{
             this.walls.add(wallTile);
         }
 
-        this.guideExit = this.add.sprite(100, 150, 'guideHole').setOrigin(0); //add guide's exit
         //
         //
         // all walls done
@@ -132,9 +131,9 @@ class Room01 extends Phaser.Scene{
         this.enemies.add(this.enemy2);
 
         // add guide
-        this.guide = this.physics.add.sprite(300, 250, 'enemy').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
-        this.guide.body.immovable = true;
-        this.guide.body.allowGravity = false;
+        this.guide = new Guide(this, 300, 250, 'enemy').setOrigin(0);
+        this.physics.add.existing(this.guide);
+        this.guideExit = this.add.sprite(100, 150, 'guideHole').setOrigin(0); //add guide's exit
 
         // add threat box for range where enemies become alerted. (in later rooms, check to see if player has torch and add torch instead of threat if they do)
         this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'threat').setOrigin(0.5).setScale(0.9);
@@ -195,6 +194,7 @@ class Room01 extends Phaser.Scene{
         this.player.update();
         this.enemy1.update(this.player);
         this.enemy2.update(this.player);
+        this.guide.update(this.player);
         if (hasTorch == false){
             this.threat.update(this.player); //passing player into threat so it can follow the player
         } else {

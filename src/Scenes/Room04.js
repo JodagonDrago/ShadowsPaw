@@ -96,16 +96,17 @@ class Room04 extends Phaser.Scene {
             this.walls.add(wallTile);
         }
 
-        // add guide
-        this.guide = this.physics.add.sprite(100, 650, 'enemy').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
-        this.guide.body.immovable = true;
-        this.guide.body.allowGravity = false;
-        this.guideExit = this.add.sprite(50, 650, 'guideHole').setOrigin(0); //add guide's exit
+        // Add button that will trigger rocks
+        this.button = this.physics.add.sprite(100, 800, 'button').setOrigin(0);
 
         // add player at map entrance
         this.player = new Player(this, 0, 750, 'player').setOrigin(0);
         this.physics.add.existing(this.player);
-        this.player.setDepth(2); // Have player appear above button. This is unique to this situation
+
+        // add guide
+        this.guide = new Guide(this, 100, 650, 'enemy').setOrigin(0);
+        this.physics.add.existing(this.guide);
+        this.guideExit = this.add.sprite(50, 650, 'guideHole').setOrigin(0); //add guide's exit
 
         // add threat box for range where enemies become alerted. Check if it is a torch or not
         if (hasTorch == false){
@@ -146,9 +147,6 @@ class Room04 extends Phaser.Scene {
         this.rocks = this.add.group();
         this.physics.add.overlap(this.player, this.rocks, ()=> { this.scene.start('gameOverScene2'); });
 
-        // Add button that will trigger rocks
-        this.button = this.physics.add.sprite(100, 800, 'button').setOrigin(0);
-        this.button.setDepth(1); // Have button appear beneath player
         this.physics.add.overlap(this.player, this.button, this.pressButton);
         this.click = this.sound.add('cracking', {volume: 2.5});
 
@@ -169,6 +167,7 @@ class Room04 extends Phaser.Scene {
 
         this.player.update();
         this.threat.update(this.player); //passing player into threat so it can follow the player
+        this.guide.update(this.player);
 
         // Update blood particles
         if (isBleeding) {

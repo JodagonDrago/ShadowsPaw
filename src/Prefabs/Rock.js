@@ -5,7 +5,7 @@ class Rock extends Phaser.Physics.Arcade.Sprite { //made a physics object instea
         // add object to existing scene
         scene.physics.add.existing(this); //this gives the prefab physics
         this.body.allowGravity = true; // Add gravity 
-        this.body.setCircle(33);
+        this.body.setCircle(32);
         this.setGravityY(400);
         this.destination = dest; // The Y location where it will hit the ground
         this.scene = scene;

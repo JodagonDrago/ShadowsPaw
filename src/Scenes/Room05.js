@@ -104,23 +104,6 @@ class Room05 extends Phaser.Scene{
                 this.walls.add(wallTile);
             }
         }
-
-        //add rocks if they were sent down in previous room and update guide text accordingly. I put this before guide starts talking just in case
-        if (rockFall){
-            // Add rocks
-            this.rockX = [150, 200, 50, 50, 50, 100, 150, 50, 100, 150, 50, 300]; // X positions of rocks;
-            this.rockY = [550, 550, 450, 400, 350, 400, 450, 300, 250, 350, 150, 200]; // Y positions of rocks;
-
-            for (let i = 0 ; i < this.rockX.length; i++) {
-                let currRock = this.physics.add.sprite(this.rockX[i], this.rockY[i], 'rocks').setOrigin(0);
-                currRock.body.immovable = true;
-                currRock.body.allowGravity = false;
-                this.walls.add(currRock);
-            }
-
-            totalText = 4; // Total sentences spoken by guide in this scene
-            textArray = [" ", "Great job back there.➤", "Not much further to go now.➤", "Told you that you could trust me.", " "]
-        }
         //
         //
         // all walls done
@@ -145,9 +128,8 @@ class Room05 extends Phaser.Scene{
         this.enemies.add(this.enemy1);
 
         // add guide
-        this.guide = this.physics.add.sprite(200, 750, 'enemy').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
-        this.guide.body.immovable = true;
-        this.guide.body.allowGravity = false;
+        this.guide = new Guide(this, 200, 750, 'enemy').setOrigin(0);
+        this.physics.add.existing(this.guide);
         this.guideExit = this.add.sprite(100, 800, 'guideHole').setOrigin(0); //add guide's exit
 
         // add threat box for range where enemies become alerted. Check if it is a torch or not
@@ -203,6 +185,23 @@ class Room05 extends Phaser.Scene{
         //guide audio
         voice = this.sound.add('voice', {volume: 0.3});
 
+        //add rocks if they were sent down in previous room and update guide text accordingly. I put this before guide starts talking just in case
+        if (rockFall){
+            // Add rocks
+            this.rockX = [150, 200, 50, 50, 50, 100, 150, 50, 100, 150, 50, 300]; // X positions of rocks;
+            this.rockY = [550, 550, 450, 400, 350, 400, 450, 300, 250, 350, 150, 200]; // Y positions of rocks;
+
+            for (let i = 0 ; i < this.rockX.length; i++) {
+                let currRock = this.physics.add.sprite(this.rockX[i], this.rockY[i], 'rocks').setOrigin(0);
+                currRock.body.immovable = true;
+                currRock.body.allowGravity = false;
+                this.walls.add(currRock);
+            }
+
+            totalText = 4; // Total sentences spoken by guide in this scene
+            textArray = [" ", "Great job back there.➤", "Those rocks you dropped blocked them off.➤", "Not much further to go now.➤", "Told you that you could trust me.", " "]
+        }
+
         // Add exit zone
         this.exitZone = this.physics.add.sprite(925, 250, 'wall').setOrigin(0);
         this.physics.add.overlap(this.player, this.exitZone, ()=> { this.scene.start('roomSceneFinal'); }); // check if player collides with exit to next room
@@ -224,7 +223,7 @@ class Room05 extends Phaser.Scene{
         //update prefabs
         this.player.update();
         this.enemy1.update(this.player);
-
+        this.guide.update(this.player);
         this.threat.update(this.player); //passing player into threat so it can follow the player
 
         // Update blood particles

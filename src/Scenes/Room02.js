@@ -219,9 +219,8 @@ class Room02 extends Phaser.Scene{
         this.trigger.body.allowGravity = false;
 
         // add guide
-        this.guide = this.physics.add.sprite(150, 450, 'enemy').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
-        this.guide.body.immovable = true;
-        this.guide.body.allowGravity = false;
+        this.guide = new Guide(this, 150, 450, 'enemy').setOrigin(0);
+        this.physics.add.existing(this.guide);
         this.guideExit = this.add.sprite(200, 400, 'guideHole').setOrigin(0); //add guide's exit
 
         // add threat box for range where enemies become alerted. Check if it is a torch or not
@@ -282,6 +281,7 @@ class Room02 extends Phaser.Scene{
 
         //update prefabs
         this.player.update();
+        this.guide.update(this.player);
         if (eventCheck == true){ //if enemies have spawned
             this.enemy1.update(this.player);
             this.enemy2.update(this.player);

@@ -225,10 +225,9 @@ class Room03 extends Phaser.Scene{
         this.enemies.add(this.enemy6);
 
         // add guide
-        this.guide = this.physics.add.sprite(250, 650, 'enemy').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
+        this.guide = new Guide(this, 250, 650, 'enemy').setOrigin(0);
+        this.physics.add.existing(this.guide);
         this.guide.body.setSize(80, 80, true);
-        this.guide.body.immovable = true;
-        this.guide.body.allowGravity = false;
         this.guideExit = this.add.sprite(500, 650, 'guideHole').setOrigin(0); //add guide's exit
 
         // add threat box for range where enemies become alerted. Check if it is a torch or not
@@ -261,7 +260,7 @@ class Room03 extends Phaser.Scene{
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 10; // Total sentences spoken by guide in this scene
-        textArray = [" ", "See? I'm your friend. Heh heh heh.➤", "And I want to help you escape.➤", "You just have to trust me. Afterall...➤", "I'm more familiar with this place than you.➤", "Take the spike trap ahead for instance,➤", "It's old, and doesnt work propperly anymore.➤", "You can cross it and it wont kill you.➤", "Far safer than going through the den up North.➤", "Trust me.", " "]
+        textArray = [" ", "See? I'm your friend. Heh heh heh.➤", "And I want to help you escape.➤", "You just have to trust me. Afterall...➤", "I'm more familiar with this place than you.➤", "Take the spike trap ahead for instance,➤", "It's old, and doesnt work properly anymore.➤", "You can cross it and it wont kill you.➤", "Far safer than going through the den up North.➤", "Trust me.", " "]
         // Display current sentence and advance to next sentence
         guideText = this.add.text(this.guide.x - 75, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0, 0.5);
         //guide audio
@@ -293,6 +292,7 @@ class Room03 extends Phaser.Scene{
         this.enemy4.update(this.player);
         this.enemy5.update(this.player);
         this.enemy6.update(this.player);
+        this.guide.update(this.player);
 
         this.threat.update(this.player); //passing player into threat so it can follow the player
 
