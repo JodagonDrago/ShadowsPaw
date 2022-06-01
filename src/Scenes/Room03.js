@@ -301,13 +301,6 @@ class Room03 extends Phaser.Scene{
 
         this.threat.update(this.player); //passing player into threat so it can follow the player
 
-        // Update blood particles
-        if (isBleeding) {
-            this.player.blood.x = this.player.x + 20; // Offset by 20 so it is aligned to player
-            this.player.blood.y = this.player.y + 50; // Offset by ten so it appears at feet of player
-        }
-
-
         // check if player collides with exit to next room
     }
 
@@ -347,7 +340,6 @@ class Room03 extends Phaser.Scene{
         }
         isBleeding = true;
         player.blood.resume();
-        
     }
 
 }

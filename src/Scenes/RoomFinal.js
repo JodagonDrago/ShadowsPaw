@@ -128,6 +128,11 @@ class RoomFinal extends Phaser.Scene{
             this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'torch_light').setOrigin(0.5);
         }
 
+        //add blood particles if bleeding (not sure if this is needed yet)
+        if (isBleeding == true){
+            this.player.blood.resume();
+        }
+
         //add exit light
         this.light = this.add.sprite(800, 250, 'light').setOrigin(0).setScale(1, 3);
 

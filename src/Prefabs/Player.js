@@ -19,16 +19,15 @@ class Player extends Phaser.GameObjects.Sprite { //made a physics object instead
 
       // Set up particle system
       this.blood = scene.add.particles('blood');
-      this.blood.createEmitter({
+      this.bloodEmitter = this.blood.createEmitter({
         lifespan: 1000,
         speed: { min: 10, max: 20 },
         angle: 180,
-        gravityY: 50,
         scale: { start: 1, end: 0.4 },
-        quantity: 1,
-        frequency: 500
+        quantity: 2,
+        frequency: 700
       });
-
+      this.bloodEmitter.startFollow(this, null, 40);
       this.blood.pause();
 
     }
@@ -50,6 +49,10 @@ class Player extends Phaser.GameObjects.Sprite { //made a physics object instead
             // Delay movement until player has moved one unit (50px)
             this.delayMove();
 
+            // Update blood
+            this.bloodEmitter.setEmitterAngle(0);
+            this.bloodEmitter.startFollow(this, 50, 40);
+
         } else if (cursors.right.isDown && !this.isMoving) {
             //console.log('Right pushed');
             this.isMoving = true;
@@ -63,6 +66,10 @@ class Player extends Phaser.GameObjects.Sprite { //made a physics object instead
             // Delay movement until player has moved one unit (50px)
             this.delayMove();
 
+            // Update blood
+            this.bloodEmitter.setEmitterAngle(180);
+            this.bloodEmitter.startFollow(this, null, 40);
+
         } else if (cursors.up.isDown && !this.isMoving) {
             //console.log('Up pushed');
             this.isMoving = true;
@@ -71,6 +78,10 @@ class Player extends Phaser.GameObjects.Sprite { //made a physics object instead
             // Delay movement until player has moved one unit (50px)
             this.delayMove();
 
+            // Update blood
+            this.bloodEmitter.setEmitterAngle(90);
+            this.bloodEmitter.startFollow(this, 25, 50);
+
         } else if (cursors.down.isDown && !this.isMoving) {
             //console.log('Down pushed');
             this.isMoving = true;
@@ -78,6 +89,10 @@ class Player extends Phaser.GameObjects.Sprite { //made a physics object instead
 
             // Delay movement until player has moved one unit (50px)
             this.delayMove();
+
+            // Update blood
+            this.bloodEmitter.setEmitterAngle(270);
+            this.bloodEmitter.startFollow(this, 25);
 
         }
         
