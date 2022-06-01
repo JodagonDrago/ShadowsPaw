@@ -88,6 +88,12 @@ class RoomFinal extends Phaser.Scene{
             }  
         }
 
+        // no backtracking wall
+        let hiddenTile = this.physics.add.sprite(-50, 450, 'wall').setOrigin(0); //behind enterance
+        hiddenTile.body.immovable = true;
+        hiddenTile.body.allowGravity = false;
+        this.walls.add(hiddenTile);
+
         // Add enemy eyes in the void
         this.eyes = this.add.group();
         /*if (testing == false){

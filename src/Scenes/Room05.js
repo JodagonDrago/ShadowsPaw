@@ -104,6 +104,12 @@ class Room05 extends Phaser.Scene{
                 this.walls.add(wallTile);
             }
         }
+
+        // no backtracking wall
+        let hiddenTile = this.physics.add.sprite(-50, 650, 'wall').setOrigin(0); //behind enterance
+        hiddenTile.body.immovable = true;
+        hiddenTile.body.allowGravity = false;
+        this.walls.add(hiddenTile);
         //
         //
         // all walls done
