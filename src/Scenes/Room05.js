@@ -104,6 +104,12 @@ class Room05 extends Phaser.Scene{
                 this.walls.add(wallTile);
             }
         }
+
+        // no backtracking wall
+        let hiddenTile = this.physics.add.sprite(-50, 650, 'wall').setOrigin(0); //behind enterance
+        hiddenTile.body.immovable = true;
+        hiddenTile.body.allowGravity = false;
+        this.walls.add(hiddenTile);
         //
         //
         // all walls done
@@ -128,9 +134,9 @@ class Room05 extends Phaser.Scene{
         this.enemies.add(this.enemy1);
 
         // add guide
-        this.guide = this.physics.add.sprite(200, 750, 'enemy').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
-        this.guide.body.immovable = true;
-        this.guide.body.allowGravity = false;
+        this.guide = new Guide(this, 200, 750, 'enemy').setOrigin(0);
+        this.physics.add.existing(this.guide);
+        this.guideExit = this.add.sprite(100, 800, 'guideHole').setOrigin(0); //add guide's exit
 
         // add threat box for range where enemies become alerted. Check if it is a torch or not
         if (hasTorch == false){
@@ -180,6 +186,11 @@ class Room05 extends Phaser.Scene{
         totalText = 4; // Total sentences spoken by guide in this scene
         textArray = [" ", "You should have listened to me back there.➤", "Now you have no choice...➤", "Your only chance is to run.", " "]
 
+        // Display current sentence and advance to next sentence
+        guideText = this.add.text(this.guide.x - 75, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0, 0.5);
+        //guide audio
+        voice = this.sound.add('voice', {volume: 0.3});
+
         //add rocks if they were sent down in previous room and update guide text accordingly. I put this before guide starts talking just in case
         if (rockFall){
             // Add rocks
@@ -194,13 +205,8 @@ class Room05 extends Phaser.Scene{
             }
 
             totalText = 4; // Total sentences spoken by guide in this scene
-            textArray = [" ", "Great job back there.➤", "Not much further to go now.➤", "Told you that you could trust me.", " "]
+            textArray = [" ", "Great job back there.➤", "Those rocks you dropped blocked them off.➤", "Not much further to go now.➤", "Told you that you could trust me.", " "]
         }
-
-        // Display current sentence and advance to next sentence
-        guideText = this.add.text(this.guide.x - 75, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0, 0.5);
-        //guide audio
-        voice = this.sound.add('voice', {volume: 0.3});
 
         // Add exit zone
         this.exitZone = this.physics.add.sprite(925, 250, 'wall').setOrigin(0);
@@ -223,7 +229,7 @@ class Room05 extends Phaser.Scene{
         //update prefabs
         this.player.update();
         this.enemy1.update(this.player);
-
+        this.guide.update(this.player);
         this.threat.update(this.player); //passing player into threat so it can follow the player
 
         //make key shine part 2

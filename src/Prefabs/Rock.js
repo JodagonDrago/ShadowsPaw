@@ -5,6 +5,7 @@ class Rock extends Phaser.Physics.Arcade.Sprite { //made a physics object instea
         // add object to existing scene
         scene.physics.add.existing(this); //this gives the prefab physics
         this.body.allowGravity = true; // Add gravity 
+        this.body.setCircle(32);
         this.setGravityY(400);
         this.destination = dest; // The Y location where it will hit the ground
         this.scene = scene;
@@ -37,6 +38,10 @@ class Rock extends Phaser.Physics.Arcade.Sprite { //made a physics object instea
         // Remove rock once the deed is done
         if (this.y >= this.destination) {
             console.log('SMASH');
+            //add rock audio
+            this.scene.smash = this.scene.sound.add('smash', {volume: 2});
+            this.scene.smash.play();
+
             this.y = -10;
             this.destroy();
             this.shadow.destroy();

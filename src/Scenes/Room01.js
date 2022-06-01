@@ -104,6 +104,7 @@ class Room01 extends Phaser.Scene{
             wallTile.body.allowGravity = false;
             this.walls.add(wallTile);
         }
+
         //
         //
         // all walls done
@@ -130,9 +131,9 @@ class Room01 extends Phaser.Scene{
         this.enemies.add(this.enemy2);
 
         // add guide
-        this.guide = this.physics.add.sprite(300, 250, 'enemy').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
-        this.guide.body.immovable = true;
-        this.guide.body.allowGravity = false;
+        this.guide = new Guide(this, 300, 250, 'enemy').setOrigin(0);
+        this.physics.add.existing(this.guide);
+        this.guideExit = this.add.sprite(100, 150, 'guideHole').setOrigin(0); //add guide's exit
 
         // add threat box for range where enemies become alerted. (in later rooms, check to see if player has torch and add torch instead of threat if they do)
         this.threat = new Threat(this, this.player.x + tileSize/2, this.player.y + tileSize/2, 'threat').setOrigin(0.5).setScale(0.9);
@@ -165,7 +166,7 @@ class Room01 extends Phaser.Scene{
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 10; // Total sentences spoken by guide in this scene
-        textArray = [" ", "Hello... You look scared...➤", "That was quite a fall you took.", "Do you need help getting out of here?➤", "I can help. Trust me.➤", "The exit's further ahead.➤", "but before you go...➤", "There's an old torch up ahead.➤", "If you pick it up, the light it shines...➤", "will make the monsters more hesitant to approach you.", " "]
+        textArray = [" ", "Hello... You look scared...➤", "That was quite a fall you took.➤", "Do you need help getting out of here?➤", "I can help. Trust me.➤", "The exit's further ahead.➤", "but before you go...➤", "There's an old torch up ahead.➤", "If you pick it up, the light it shines...➤", "will make the monsters more hesitant to approach you.", " "]
         // Display current sentence and advance to next sentence
         guideText = this.add.text(this.guide.x + 25, this.guide.y - 25, textArray[currText++], textConfig).setOrigin(0.5);
         //guide audio
@@ -193,6 +194,7 @@ class Room01 extends Phaser.Scene{
         this.player.update();
         this.enemy1.update(this.player);
         this.enemy2.update(this.player);
+        this.guide.update(this.player);
         if (hasTorch == false){
             this.threat.update(this.player); //passing player into threat so it can follow the player
         } else {

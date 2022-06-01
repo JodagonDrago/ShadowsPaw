@@ -29,6 +29,11 @@ class GuideEnd01 extends Phaser.Scene{
             wallTile.body.allowGravity = false;
             this.walls.add(wallTile);
         }
+        // no backtracking wall
+        let hiddenTile = this.physics.add.sprite(450, 950, 'wall').setOrigin(0); //behind enterance
+        hiddenTile.body.immovable = true;
+        hiddenTile.body.allowGravity = false;
+        this.walls.add(hiddenTile);
 
         // Add player
         this.player = new Player(this, 450, 850, 'player').setOrigin(0);

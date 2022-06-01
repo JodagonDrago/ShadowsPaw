@@ -6,12 +6,14 @@ class RoomFinal extends Phaser.Scene{
 
     preload() {
         this.load.image('secretWall', './assets/CrackedWall.png')
-        this.load.image('holeWall', './assets/HoleWall.png')
         this.load.image('eyes', './assets/Eye Glow.png')
         this.load.image('redEyes', './assets/Red Eye Glow.png')
+        this.load.image('holeWall', './assets/HoleWall.png')
+        this.load.image('light', './assets/Light.png')
     }
 
     create() {
+        currentScene = this;
 
         // Place map sprite
         console.log('Final room started');
@@ -86,6 +88,12 @@ class RoomFinal extends Phaser.Scene{
             }  
         }
 
+        // no backtracking wall
+        let hiddenTile = this.physics.add.sprite(-50, 450, 'wall').setOrigin(0); //behind enterance
+        hiddenTile.body.immovable = true;
+        hiddenTile.body.allowGravity = false;
+        this.walls.add(hiddenTile);
+
         // Add enemy eyes in the void
         this.eyes = this.add.group();
         /*if (testing == false){
@@ -104,7 +112,7 @@ class RoomFinal extends Phaser.Scene{
         }
 
         // Add guide in void
-        this.guide = this.physics.add.sprite(350, 350, 'redEyes').setOrigin(0); //using guide sprite instead of prefab for now unless prefab is needed
+        this.guide = this.physics.add.sprite(350, 350, 'redEyes').setOrigin(0); 
         this.guide.body.immovable = true;
         this.guide.body.allowGravity = false;
 
@@ -125,6 +133,13 @@ class RoomFinal extends Phaser.Scene{
             this.player.blood.resume();
         }
 
+        //add exit light
+        this.light = this.add.sprite(800, 250, 'light').setOrigin(0).setScale(1, 3);
+
+        //add secret exit light offscreen
+        this.light2 = this.add.sprite(-100, -100, 'light').setOrigin(0);
+        this.light2.angle = 90;
+
         // add physics colliders between player, enemies, and walls
         this.physics.add.collider(this.player, this.walls);
         this.physics.add.overlap(this.threat, this.guide, this.startTalking); // make guide start talking if player is close enough
@@ -138,7 +153,7 @@ class RoomFinal extends Phaser.Scene{
         // Add guide dialogue into an array by sentence
         currText = 0; // Current sentence to display, starts above total so dialogue doesnt appear until collision
         totalText = 9; // Total sentences spoken by guide in this scene
-        textArray = [" ", "You're almost out.➤", "But there's just one last danger...➤", "Another ambush waiting for you.➤", "Right through that big exit.➤", "But don't worry...➤", "I made an opening in the wall for you.➤", "You can escape through it isntead!➤", "Go on, you're so close!", " "]
+        textArray = [" ", "You're almost out.➤", "But there's just one last danger...➤", "Another ambush waiting for you.➤", "Right through that big exit.➤", "But don't worry...➤", "I made an opening in the wall for you.➤", "You can escape through it instead!➤", "Go on, you're so close!", " "]
         talking = false;
         talking2 = false;
         // Display current sentence and advance to next sentence
@@ -189,6 +204,9 @@ class RoomFinal extends Phaser.Scene{
         if (hasKey == true){
             secretExit.destroy();
             pickupSound.play();
+            //add exit light
+            currentScene.light2.x = 600;
+            currentScene.light2.y = 700;
         }
     }
 }

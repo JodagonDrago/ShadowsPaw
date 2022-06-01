@@ -25,8 +25,8 @@ class Escape extends Phaser.Scene{
             "But you know you're safe from them now.",
             "Finally."
         ]
-        this.add.text(game.config.width/2, game.config.height - 175, message).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height - 50, 'Press [SPACE] to return to the menu.').setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height - 100, message).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height - 25, 'Press [SPACE] to return to the menu.').setOrigin(0.5);
 
         // Define keys that aren't for movement
         keySPACE = this.input.keyboard.addKey('SPACE');
