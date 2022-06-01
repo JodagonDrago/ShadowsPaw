@@ -182,20 +182,24 @@ class Room02 extends Phaser.Scene{
 
         // add cracking sound and visuals
         sfx = this.sound.add('cracking', {volume: 0.5});
+        this.partLine = new Phaser.Geom.Line(20, 20, 10, 20); // Line for emit zone
+        this.partCount = 2; // How many particles to spawn initially for emitter
 
         this.particles = this.add.particles('dust'); // Particles for crumbling dust
         this.particles.x = 300;
         this.particles.y = 300;
-        this.particles.createEmitter({
+        this.emitter = this.particles.createEmitter({
             lifespan: 1000,
             speed: { min: 10, max: 20 },
             angle: 90,
             gravityY: 50,
             scale: { start: 1, end: 0.4 },
             quantity: 1,
-            frequency: 500
+            frequency: 200,
+            emitZone: { type: 'random', source: this.partLine, quantity: this.partCount}
         });
         this.particles.pause();
+        this.playerPast = 0; // For tracking player's progress across bridge
 
         // add player at map enterance
         this.player = new Player(this, 0, 450, 'player').setOrigin(0);
@@ -331,15 +335,17 @@ class Room02 extends Phaser.Scene{
         if (sfx.isPlaying == false){
             sfx.play();
         }
-        // Pause particle emitter and make particles invisible when off the bridge
-        if (currentScene.player.x < 275 || currentScene.player.x > 575 ) {
-            currentScene.particles.pause();
-            currentScene.particles.visible = false;
-        } else { // If player is on the bridge, resume particle emitter
-            currentScene.particles.x = currentScene.player.x + 25;
-            currentScene.particles.resume();
-            currentScene.particles.visible = true; 
+        
+        // Make particles appear along bridge as player walks across
+        currentScene.particles.resume();
+        if (currentScene.player.x > currentScene.playerPast) {
+            // As player moves across bridge, lengthen emitter zone
+            currentScene.playerPast = currentScene.player.x; // Track player position
+            currentScene.partLine.x2 += 1.35;
+            currentScene.partCount += 2;
+            currentScene.emitter.setEmitZone({ type: 'random', source: currentScene.partLine, quantity: currentScene.partCount}); 
         }
+        
         
     }
     glowEyes(threat, shine){ //eyes glow from torch light
