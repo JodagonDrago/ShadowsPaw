@@ -12,6 +12,19 @@ class Rock extends Phaser.Physics.Arcade.Sprite { //made a physics object instea
         this.group = group;
         this.setDepth(3); // Have rock appear on top of player sprite
 
+        this.particles = scene.add.particles(texture);
+        this.explosion = this.particles.createEmitter({
+            angle: { min: 240, max: 300 },
+            speed: { min: 400, max: 600 },
+            quantity: { min: 2, max: 10 },
+            lifespan: 4000,
+            alpha: { start: 1, end: 0 },
+            scale: { min: 0.05, max: 0.4 },
+            rotate: { start: 0, end: 360, ease: 'Back.easeOut' },
+            gravityY: 800,
+            on: false
+        });
+
     }
 
     update(){
@@ -27,6 +40,7 @@ class Rock extends Phaser.Physics.Arcade.Sprite { //made a physics object instea
             this.y = -10;
             this.destroy();
             this.shadow.destroy();
+            this.particles.emitParticleAt(this.x, this.destination);
         }
         
     }
