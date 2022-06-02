@@ -21,7 +21,7 @@ class Player extends Phaser.GameObjects.Sprite { //made a physics object instead
       this.blood = scene.add.particles('blood');
       this.bloodEmitter = this.blood.createEmitter({
         lifespan: 1000,
-        speed: { min: 10, max: 20 },
+        speed: { min: 0, max: 0 },
         angle: 180,
         scale: { start: 1, end: 0.4 },
         quantity: 2,
