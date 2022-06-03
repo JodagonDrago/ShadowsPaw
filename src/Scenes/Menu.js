@@ -26,7 +26,7 @@ class Menu extends Phaser.Scene{
         this.load.image('guideHole', './assets/Guide Hole.png')
 
         // load spritesheet
-        
+        this.load.atlas('player_atlas', 'PlayerSprite-Sheet.png', 'PlayerSpriteSheet.json')
     }
 
     create(){
