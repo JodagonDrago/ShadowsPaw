@@ -27,6 +27,7 @@ class Menu extends Phaser.Scene{
 
         // load spritesheet
         this.load.atlas('player_atlas', 'PlayerSprite-Sheet.png', 'PlayerSpriteSheet.json')
+        // idle animaitons are denoted with idle_, walking animaitons are denoted with walk_. 
     }
 
     create(){
